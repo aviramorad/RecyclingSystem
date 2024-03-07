@@ -2,9 +2,12 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.views.generic import CreateView
-from .forms import PrivateSignUpForm, CorpSignUpForm
 from django.contrib.auth.forms import AuthenticationForm
-from .models import User
+from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.template import loader
+from .models import User, website_products
+from .forms import PrivateSignUpForm, CorpSignUpForm
 
 def register(request):
     return render(request, 'register.html')
@@ -29,7 +32,6 @@ class corpuser_register(CreateView):
         login(self.request, user)
         return redirect('/')
 
-
 def login_request(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -49,3 +51,27 @@ def login_request(request):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+
+def addproduct(request):
+	template = loader.get_template('addProduct.html')
+	return HttpResponse(template.render())
+
+def searchProduct(request):
+	myproducts = website_products.objects.all().values()
+	template = loader.get_template('searchProduct.html')
+	selected_product = None
+
+	if request.method == 'POST':
+		selected_product_name = request.POST.get('browser', '')
+		selected_product = website_products.objects.filter(product_name=selected_product_name).first()
+
+		context = {
+			'myproducts': myproducts,
+			'selected_product': selected_product,
+			}
+	else:
+		context = {
+		  'myproducts': myproducts,
+	  	}
+	return HttpResponse(template.render(context, request))
