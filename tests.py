@@ -1,6 +1,10 @@
-from django.test import TestCase
 import unittest
 from .models import User
+from my_app.models import website_products
+from django.db.utils import IntegrityError
+from django.test import TestCase, RequestFactory
+from django.urls import reverse
+from .views import searchProduct
 
 class UserModelTestCase(TestCase):
     def setUp(self):
@@ -13,7 +17,7 @@ class UserModelTestCase(TestCase):
             comp_num=12345
         )
 
-    def test_user_creation(self):    # Test unit to check user creation (not AI)
+    def test_user_creation(self):    # Test unit to check user creation (not AI) - made by Aviram
         self.assertEqual(self.user.username, 'hagit123')
         self.assertEqual(self.user.first_name, 'Hagit')
         self.assertEqual(self.user.last_name, 'Tubul')
@@ -50,6 +54,56 @@ class UserModelTestCase(TestCase):
             location='Test City'
         )
         self.assertIsNone(user_no_comp_num.comp_num)
+
+class WebsiteProductsModelTests(unittest.TestCase):
+    # my test unit
+    def test_product_creation(self):   # Test unit to check that a product was created successfully - made by Noam
+        product = website_products.objects.create(
+            product_name='Test Product',
+            Product_type=True,
+            value=50,
+            bin_type='Type A'
+        )
+
+        self.assertIsNotNone(product)
+        self.assertEqual(product.product_name, 'Test Product')
+        self.assertTrue(product.Product_type)
+        self.assertEqual(product.value, 50)
+        self.assertEqual(product.bin_type, 'Type A')
+
+    def test_product_str_method(self):  # Made by AI - Microsoft Copilot
+        # Create a product instance
+        product = website_products(product_name='Test Product', bin_type='Type A')
+
+        # Check the __str__ method
+        self.assertEqual(str(product), 'Test Product, Type A')
+
+    def test_product_type_default(self):   # Made by AI - Microsoft Copilot
+        # Create a product without specifying Product_type (should default to False)
+        product = website_products.objects.create(
+            product_name='Another Product',
+            value=100,
+            bin_type='Type B'
+        )
+
+        self.assertFalse(product.Product_type)
+
+    def test_invalid_value_raises_error(self): # Made by AI - Microsoft Copilot
+    # Attempt to create a product with a negative value (should raise an IntegrityError)
+        with self.assertRaises(IntegrityError):
+            try:
+                website_products.objects.create(
+                    product_name='Invalid Product',
+                    Product_type=True,
+                    value=-10,  # Negative value
+                    bin_type='Type C'
+                )
+            except IntegrityError as e:
+                # Check if the IntegrityError message contains the expected substring
+                self.assertTrue('CHECK constraint failed: value' in str(e))
+                raise
+
+
 
 if __name__ == '__main__':
     unittest.main()
