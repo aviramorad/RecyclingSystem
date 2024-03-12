@@ -1,7 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.db import transaction
-from .models import User
+from .models import User, products
+from django.utils.translation import gettext_lazy as _
 
 class PrivateSignUpForm(UserCreationForm):
     first_name = forms.CharField(required=True)
@@ -47,3 +48,45 @@ class CorpSignUpForm(UserCreationForm):
         if commit:
             user.save()
         return user
+    
+class createProductForm(forms.ModelForm):
+    class Meta:
+        model = products
+        fields = ["product_name", "Product_type", "value", "bin_type"]
+        labels = {
+            "product_name": _("שם מוצר"),
+            "Product_type": _("סוג מוצר"),
+            "value": _("מחיר/נקודות"),
+            "bin_type": _("סוג פח"),
+        }
+    def _init_(self, *args, **kwargs):
+        super()._init_(*args, **kwargs)
+        self.fields['bin_type'].required = False
+            
+    def clean(self):
+        cleaned_data = super().clean()
+        bin_type = cleaned_data.get('bin_type')
+        Product_type = cleaned_data.get('Product_type')
+        value = cleaned_data.get('value')
+        # Custom validation example
+        if Product_type == False and not bin_type:
+            raise forms.ValidationError("Product name must be at least 3 characters long.")
+
+        if value and value < 0:
+            raise forms.ValidationError("Value must be a positive number.")
+
+        return cleaned_data
+    
+class updateProductForm(forms.ModelForm):
+    class Meta:
+        model = products
+        fields = ["product_name", "Product_type", "value", "bin_type"]
+        labels = {
+            "product_name": _("שם מוצר"),
+            "Product_type": _("סוג מוצר"),
+            "value": _("מחיר/נקודות"),
+            "bin_type": _("סוג פח"),
+        }
+
+
+

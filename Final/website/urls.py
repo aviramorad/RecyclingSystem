@@ -9,5 +9,6 @@ urlpatterns=[
      path('logout/',views.logout_view, name='logout'),
      path('login/register.php', views.register_view, name='register'),
      path('addproduct/', views.addproduct, name='addproduct'),
-    path('searchProduct/', views.searchProduct, name='searchProduct'),
+     path('updateProduct/<int:pk>/', views.updateProduct, name='updateProduct'),
+     path('searchProduct/', views.searchProduct, name='searchProduct'),
 ]

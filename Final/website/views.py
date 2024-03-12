@@ -1,5 +1,5 @@
 from django.contrib.auth import login, logout, authenticate
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib import messages
 from django.views.generic import CreateView
 from django.contrib.auth.forms import AuthenticationForm
@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .models import User, products
-from .forms import PrivateSignUpForm, CorpSignUpForm
+from .forms import PrivateSignUpForm, CorpSignUpForm, updateProductForm, createProductForm
 
 def register(request):
     return render(request, 'register.html')
@@ -62,13 +62,32 @@ def logout_view(request):
     return redirect('/')
 
 def addproduct(request):
-	template = loader.get_template('addProduct.html')
-	return HttpResponse(template.render())
+    if request.method == 'POST':
+        form = createProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Redirect to a success page or wherever you want
+            return render(request, 'addProduct.html', {'form': form, 'success': 'המוצר נוסף בהצלחה!'})
+    else:
+        form = createProductForm()
+    return render(request, 'addProduct.html', {'form': form})
 
+def updateProduct(request, id):
+    instance = get_object_or_404(products, id = id)
+    if request.method == 'POST':
+        form = updateProductForm(request.POST, instance = instance)
+        if form.is_valid(): #validation
+            form.save()
+            # Redirect to a success page or wherever you want
+            return render(request, 'updateProduct.html', {'form': form, 'success': 'המוצר עודכן בהצלחה!'})
+    else:
+        form = updateProductForm(instance = instance)
+    return render(request, 'updateProduct.html', {'form': form})
+    
+      
 def searchProduct(request):
 	myproducts = products.objects.all().values()
 	template = loader.get_template('searchProduct.html')
-	selected_product = None
 
 	if request.method == 'POST':
 		selected_product_name = request.POST.get('browser', '')
@@ -81,5 +100,6 @@ def searchProduct(request):
 	else:
 		context = {
 		  'myproducts': myproducts,
-	  	}   
+	  	}
 	return HttpResponse(template.render(context, request))
+
