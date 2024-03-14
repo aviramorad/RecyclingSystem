@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>רשימת מוצרים</h1>
+<table>
+
+    {% for p in products %}
+        <tr>
+            <td>{{ p.product_name }}</td>
+            <td><a href="{% url 'updateproduct' p.id %}">עדכון</a></td>
+        </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'addproduct' %}">הוספת מוצר</a>
+</body>
+</html>

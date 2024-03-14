@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .models import User, products
-from .forms import PrivateSignUpForm, CorpSignUpForm, updateProductForm, createProductForm
+from .forms import PrivateSignUpForm, CorpSignUpForm, ProductForm
 
 def register(request):
     return render(request, 'register.html')
@@ -62,27 +62,30 @@ def logout_view(request):
     return redirect('/')
 
 def addproduct(request):
+    pagetitle = 'הוסף מוצר חדש'
     if request.method == 'POST':
-        form = createProductForm(request.POST)
+        form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
             # Redirect to a success page or wherever you want
-            return render(request, 'addProduct.html', {'form': form, 'success': 'המוצר נוסף בהצלחה!'})
+            return redirect('products_list')
     else:
-        form = createProductForm()
-    return render(request, 'addProduct.html', {'form': form})
+        form = ProductForm()
+    return render(request, 'product_form.html', {'form': form, 'pagetitle': pagetitle})
 
-def updateProduct(request, id):
-    instance = get_object_or_404(products, id = id)
+def updateproduct(request, pk):
+    pagetitle = 'עדכון פרטי מוצר'
+    product = products.objects.get(id=pk)
+    form = ProductForm(instance=product) # prepopulate the form with an existing band
     if request.method == 'POST':
-        form = updateProductForm(request.POST, instance = instance)
-        if form.is_valid(): #validation
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
             form.save()
             # Redirect to a success page or wherever you want
-            return render(request, 'updateProduct.html', {'form': form, 'success': 'המוצר עודכן בהצלחה!'})
-    else:
-        form = updateProductForm(instance = instance)
-    return render(request, 'updateProduct.html', {'form': form})
+            return redirect('productslist')
+    
+    return render(request, 'product_form.html', {'form': form, 'pagetitle': pagetitle})
+
     
       
 def searchProduct(request):
@@ -102,4 +105,8 @@ def searchProduct(request):
 		  'myproducts': myproducts,
 	  	}
 	return HttpResponse(template.render(context, request))
+
+def productslist(request):
+    all_products = products.objects.all()
+    return render(request, 'products_list.html', {'products': all_products})
 

@@ -1,5 +1,5 @@
 import unittest
-from .models import User, website_products
+from .models import User, products
 from django.db.utils import IntegrityError
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
@@ -57,7 +57,7 @@ class UserModelTestCase(TestCase):
 class WebsiteProductsModelTests(unittest.TestCase):
     # my test unit
     def test_product_creation(self):   # Test unit to check that a product was created successfully - made by Noam
-        product = website_products.objects.create(
+        product = products.objects.create(
             product_name='Test Product',
             Product_type=True,
             value=50,
@@ -72,14 +72,14 @@ class WebsiteProductsModelTests(unittest.TestCase):
 
     def test_product_str_method(self):  # Made by AI - Microsoft Copilot
         # Create a product instance
-        product = website_products(product_name='Test Product', bin_type='Type A')
+        product = products(product_name='Test Product', bin_type='Type A')
 
         # Check the __str__ method
         self.assertEqual(str(product), 'Test Product, Type A')
 
     def test_product_type_default(self):   # Made by AI - Microsoft Copilot
         # Create a product without specifying Product_type (should default to False)
-        product = website_products.objects.create(
+        product = products.objects.create(
             product_name='Another Product',
             value=100,
             bin_type='Type B'
@@ -91,7 +91,7 @@ class WebsiteProductsModelTests(unittest.TestCase):
     # Attempt to create a product with a negative value (should raise an IntegrityError)
         with self.assertRaises(IntegrityError):
             try:
-                website_products.objects.create(
+                products.objects.create(
                     product_name='Invalid Product',
                     Product_type=True,
                     value=-10,  # Negative value

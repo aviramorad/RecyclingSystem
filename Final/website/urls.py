@@ -8,7 +8,8 @@ urlpatterns=[
      path('login/',views.login_request, name='login'),
      path('logout/',views.logout_view, name='logout'),
      path('login/register.php', views.register_view, name='register'),
-     path('addproduct/', views.addproduct, name='addproduct'),
-     path('updateProduct/<int:pk>/', views.updateProduct, name='updateProduct'),
      path('searchProduct/', views.searchProduct, name='searchProduct'),
+     path('addproduct/', views.addproduct, name='addproduct'),
+     path('productslist/', views.productslist, name='productslist'),
+     path('updateproduct/<int:pk>/', views.updateproduct, name='updateproduct'),
 ]

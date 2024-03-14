@@ -49,44 +49,40 @@ class CorpSignUpForm(UserCreationForm):
             user.save()
         return user
     
-class createProductForm(forms.ModelForm):
+
+    
+
+
+class ProductForm(forms.ModelForm):
     class Meta:
         model = products
-        fields = ["product_name", "Product_type", "value", "bin_type"]
+        fields = ["id", "product_name", "Product_type", "value", "bin_type"]
         labels = {
+            "id": _("מזהה"),
             "product_name": _("שם מוצר"),
             "Product_type": _("סוג מוצר"),
             "value": _("מחיר/נקודות"),
             "bin_type": _("סוג פח"),
         }
+
     def _init_(self, *args, **kwargs):
         super()._init_(*args, **kwargs)
         self.fields['bin_type'].required = False
-            
+        
     def clean(self):
         cleaned_data = super().clean()
+        pID = cleaned_data.get('id')
+        product_name = cleaned_data.get('product_name')
         bin_type = cleaned_data.get('bin_type')
         Product_type = cleaned_data.get('Product_type')
         value = cleaned_data.get('value')
         # Custom validation example
+        # if pID is not None:
+        #     raise forms.ValidationError(pID)
         if Product_type == False and not bin_type:
-            raise forms.ValidationError("Product name must be at least 3 characters long.")
+            raise forms.ValidationError("עבור מוצרי מיחזור חייב לבחור סוג פח" + str(pID))
 
         if value and value < 0:
-            raise forms.ValidationError("Value must be a positive number.")
+            raise forms.ValidationError("ערך מחיר/נקודות צריך להיות גדול מ-0")
 
         return cleaned_data
-    
-class updateProductForm(forms.ModelForm):
-    class Meta:
-        model = products
-        fields = ["product_name", "Product_type", "value", "bin_type"]
-        labels = {
-            "product_name": _("שם מוצר"),
-            "Product_type": _("סוג מוצר"),
-            "value": _("מחיר/נקודות"),
-            "bin_type": _("סוג פח"),
-        }
-
-
-
