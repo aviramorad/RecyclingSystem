@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'website.apps.WebsiteConfig',
     'pages.apps.PagesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,8 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'widget_tweaks',
-    'website.apps.WebsiteConfig',
+    'widget_tweaks'
 ]
 
 AUTH_USER_MODEL = 'website.User'
@@ -127,6 +127,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR /'website'/ 'static'
 ]
-
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
