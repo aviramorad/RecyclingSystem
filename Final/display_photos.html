@@ -1,0 +1,45 @@
+{% extends "master.html" %}
+
+{% block title %}
+    פניות משתמשים
+{% endblock %}
+
+{% block content %}
+    <h1>אישור תמונות</h1>
+    <table>
+        <tr>
+            <th>תאריך</th>
+            <th>שם משתמש</th>
+            <th>עיר מגורים</th>
+            <th>המוצר שמוחזר</th>
+            <th>טופל</th>
+            <th>תמונה</th>
+        </tr>
+
+        {% for c in contacts %}
+            {% if c.user.user_type == False and not c.user.is_superuser  %}
+                <tr>
+                    <td>{{ c.creationDT | date:"d/m/Y" }}</td>
+                    <td>{{ c.user }}</td>
+                    <td>{{ c.user.location }}</td>
+                    <td>{{ c.product }}</td>
+                    <td>
+                        {% if not c.status %}
+                            <a href="{% url 'approve_status' c.id %}">אושר</a> | 
+                            <a href="{% url 'disapprove_status' c.id %}">לא אושר</a>
+                            if status=True:
+                            points+=10;
+                        {% else %}
+                            טופל
+                        {% endif %}
+                    </td>
+                    {% if c.userImg %}
+                        <td><img src="{{ c.userImg.url }}" alt="תמונה"></td>
+                    {% else %}
+                        <td>לא קיימת תמונה</td>
+                    {% endif %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+{% endblock %}

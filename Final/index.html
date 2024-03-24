@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>צעד למיחזור</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'js/scripts.js' %}"></script>
+ 
+</head>
+<body>
+    <h1> ברוכים הבאים</h1>
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'logout' %}">להתנתקות ויציאה</a> <br>
+    {% else %}
+    <a href="{% url 'register' %}">הרשמו עכשיו</a> <br>
+    <a href="{% url 'login' %}">להתחברות וביצוע חידון</a> <br>
+    <a href="{% url 'searchProduct' %}">לחיפוש מחזור מוצרים לפי פח</a><br>
+    <div class="btn__container">
+        <a href="https://www.instagram.com/" class="btn">
+            <i class="fab fa-instagram"></i>
+            <span>Instagram</span>
+        </a>
+        <a href="https://www.facebook.com/?locale=he_IL" class="btn-f">
+            <i class="fab fa-facebook"></i>
+            <span>Facebook</span>
+        </a>
+        <a href="https://web.whatsapp.com/" class="btn-w">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp</span>
+        </a>
+    </div>
+    {% endif %}
+</body>
+</html>
