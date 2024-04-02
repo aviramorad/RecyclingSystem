@@ -1,4 +1,4 @@
-const questions = [
+questions = [
     {
         index: 1,
         "question": "מרבית הפסולת בחופים היא:",
@@ -210,7 +210,6 @@ const questions = [
         "correctAnswer": "פח כתום"
     }
   ];
-
 // Finding the HTML element with the unique identifier "questions" and assigning it to the questionsElement variable.
 const questionsElement = document.getElementById('questions');
 // Finding the HTML element with the unique identifier "results" and assigning it to the resultsElement variable.
@@ -277,7 +276,6 @@ function disableButtons() {
         button.disabled = true;
     });
 }
-
 // Display results
 function displayResults() {
     resultsElement.innerHTML = `<p>תשובות נכונות: ${correctAnswers} מתוך ${totalQuestions}</p>`;
