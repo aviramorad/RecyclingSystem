@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'widget_tweaks'
+    'widget_tweaks',
+    'django_otp',
+    'django_otp.plugins.otp_totp',
+
 ]
 
 AUTH_USER_MODEL = 'website.User'
@@ -54,6 +57,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django_otp.middleware.OTPMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -126,7 +130,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     BASE_DIR /'website'/ 'static'
 ]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# SMTP Configuration
+
+EMAIL_BACKED = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'stepforrecycling@gmail.com'
+EMAIL_HOST_PASSWORD = 'maledlpytiygekrf'
