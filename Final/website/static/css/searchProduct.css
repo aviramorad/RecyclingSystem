@@ -1,26 +1,21 @@
+/* Reset CSS */
 * {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    box-sizing: border-box;
 }
 
+/* Global Styles */
 body {
-    background-color: #f2f2f2;
-    background-image: url('https://cmr-kataria.com/wp-content/uploads/2021/06/Why-Is-Recycling-Important.png');
-    background-position: center;
-    background-size: cover;
-}
-.main {
-    max-width: 1200px;
-    margin: auto;
-    text-align: center;
+    background-color: #b9eda6;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .container {
     max-width: 400px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #b4e19d;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
@@ -32,12 +27,12 @@ h1 {
 }
 
 form {
-    text-align: right;
-}
+    text-align: center;
+}   
 
 label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 10px; /* Changed from 5px for better spacing */
 }
 
 input[type="text"],
@@ -61,6 +56,7 @@ input[type="submit"] {
     cursor: pointer;
     border: none;
     margin-top: 20px;
+    transition: background-color 0.3s; 
 }
 
 input[type="submit"]:hover {

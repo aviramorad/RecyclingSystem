@@ -1,0 +1,51 @@
+{% extends "master.html" %}
+{% load static %}
+{% block title %}
+נתוני משתמשים באתר
+{% endblock %}
+
+{% block content %}
+<h1>  נתוני המשתמשים באתר </h1>
+<table>
+
+    <tr>
+        <th>שם משתמש</th>
+        <th>שם פרטי</th>
+        <th>שם משפחה</th>
+        <th>אימייל</th>
+        <th>עיר מגורים</th>
+        <th>התחבר לאחרונה  </th>
+        <th>נקודות </th>
+        <th>מחיקת משתמש</th>
+       
+      </tr>
+    {% for p in recycling_data %}
+        <tr>
+            <!-- אני ניגשת לשדה הראשון עם הנקודה הראשונה ואז לשדה שאני רוצה בתוך הטבלה של הראשון -->
+            <td>{{ p.username }}</td>
+            <td>{{ p.first_name }}</td> 
+            <td>{{ p.last_name }}</td>
+            <td>{{ p.email }}</td>
+            <td>{{ p.location }}</td>
+            <td>{{ p.last_login }}</td> 
+            <td>{{ p.points }}</td> 
+            <td>
+                <form method="post" action="{% url 'delete_user' p.id %}">
+                    {% csrf_token %}
+                    <button type="submit">מחק</button>
+                    {% if success %}
+                        <a>fdafdf</a>
+                    {% endif %}
+                </form>
+            </td>
+        </tr>
+        
+    {% endfor %}
+    
+</table>
+<a href="{% url 'userform' %}"> חזרה לפרופיל שלי</a>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/delete_user_popup.js' %}" defer></script>
+{% endblock extra_js %}

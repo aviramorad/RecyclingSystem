@@ -1,0 +1,45 @@
+{% extends "master.html" %}
+
+{% block title %}
+    דיווחי מיחזור
+{% endblock %}
+
+{% block content %}
+    <h1>אישור תמונות</h1>
+    <table>
+        <tr>
+            <th>תאריך</th>
+            <th>שם משתמש</th>
+            <th>עיר מגורים</th>
+            <th>המוצר שמוחזר</th>
+            <th>טופל</th>
+            <th>תמונה</th>
+        </tr>
+
+        {% for c in contacts %}
+            {% if c.user.user_type == False and not c.user.is_superuser  %}
+                <tr>
+                    <td>{{ c.creationDT | date:"d/m/Y" }}</td>
+                    <td>{{ c.user }}</td>
+                    <td>{{ c.user.location }}</td>
+                    <td>{{ c.product }}</td>
+                    <td>
+                        {% if not c.status %}
+                            <a href="{% url 'approve_status' c.id c.user.id %}">אושר</a> | 
+                            <a href="{% url 'disapprove_status' c.id %}">לא אושר</a>
+                        {% else %}
+                            טופל
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if c.userImg %}
+                            <img src="{{ c.userImg.url }}" style="height: 100px; width: 100px;" alt="תמונה">
+                        {% else %}
+                            לא קיימת תמונה
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+{% endblock %}

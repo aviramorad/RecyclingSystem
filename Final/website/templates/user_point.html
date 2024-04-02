@@ -1,0 +1,23 @@
+{% extends "master.html" %}
+
+{% block title %}
+    ניקוד
+{% endblock %}
+
+{% block content %}
+     <h1>טבלת ניקוד</h1>
+    <table class="user-points-table"> 
+        <tr>
+            <th>שם משתמש</th>
+            <th>ניקוד</th>
+        </tr>
+        {% for user in private_users %}
+            {% if user.user_type == 0 and not user.is_superuser %}
+                <tr>
+                    <td>{{ user }}</td>
+                    <td>{{ user.userpoint.points }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+{% endblock %}

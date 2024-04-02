@@ -1,9 +1,9 @@
 body {
+    background-image: none;
     font-family: Arial, sans-serif;
     direction: rtl;
     text-align: center;
-    background-color: #f2f2f2;
-    background-image: url('https://cmr-kataria.com/wp-content/uploads/2021/06/Why-Is-Recycling-Important.png');
+    background-color: #5ddf75; 
     background-position: center;
     background-size: cover;
     margin: 0;
