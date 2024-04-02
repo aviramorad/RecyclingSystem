@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import make_password
 from django import forms
 from django.db import transaction
-from .models import User, products, usersrecycling, userpoint
+from .models import User, products, usersrecycling,ShopForm
 from django.utils.translation import gettext_lazy as _
 
 class PrivateSignUpForm(UserCreationForm):
@@ -54,37 +54,31 @@ class CorpSignUpForm(UserCreationForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = products
-        fields = ["id", "product_name", "Product_type", "value", "bin_type"]
+        fields = ["id", "product_name", "value", "bin_type"]
         labels = {
             "id": _("מזהה"),
             "product_name": _("שם מוצר"),
-            "Product_type": _("סוג מוצר"),
-            "value": _("מחיר/נקודות"),
+            "value": _("נקודות"),
             "bin_type": _("סוג פח"),
+        }
+        widgets = {
+            'value': forms.TextInput(attrs={'readonly': True}),
+        }
+
+
+class storeProductForm(forms.ModelForm):
+    class Meta:
+        model = products
+        fields = ["id", "product_name", "value"]
+        labels = {
+            "id": _("מזהה"),
+            "product_name": _("שם מוצר"),
+            "value": _("מחיר"),
     }
     
-    def _init_(self, *args, **kwargs):
-        super()._init_(*args, **kwargs)
-        self.fields['bin_type'].required = False
-        
-    def clean(self):
-        cleaned_data = super().clean()
-        pID = cleaned_data.get('id')
-        product_name = cleaned_data.get('product_name')
-        bin_type = cleaned_data.get('bin_type')
-        Product_type = cleaned_data.get('Product_type')
-        value = cleaned_data.get('value')
-        # Custom validation example
-        # if pID is not None:
-        #     raise forms.ValidationError(pID)
-        if Product_type == False and not bin_type:
-            raise forms.ValidationError("עבור מוצרי מיחזור חייב לבחור סוג פח" + str(pID))
+    def __init__(self, *args, **kwargs):
+        super(storeProductForm, self).__init__(*args, **kwargs)
 
-        if value and value < 0:
-            raise forms.ValidationError("ערך מחיר/נקודות צריך להיות גדול מ-0")
-
-        return cleaned_data
-    
 
 class UserDetailsForm(forms.ModelForm):
     class Meta:
@@ -149,15 +143,18 @@ class UserRecyclingForm(forms.ModelForm):
         self.fields['product'].queryset = products.objects.filter(Product_type=False)
 
 
-class userpointForm(forms.ModelForm):
-    class Meta:
-        model = usersrecycling
-        fields = ["point", "username"]
-        labels = {
-            "point": _("ניקוד:"),
-            "username": _(":שם משתמש"),
-        }
 
-    def __init__(self, *args, **kwargs):
-        super(UserRecyclingForm, self).__init__(*args, **kwargs)
-        self.fields['product'].queryset = products.objects.filter(Product_type=False)
+class shopDigital(forms.ModelForm):
+    class Meta:
+        model = products
+        fields = ["id", "product_name", "Product_type", "value", "bin_type"]
+        labels = {
+            "id": _("מזהה"),
+            "product_name": _("שם מוצר"),
+            "Product_type": _("סוג מוצר"),
+            "value": _("מחיר/נקודות"),
+    }
+    
+    def _init_(self, *args, **kwargs):
+        super()._init_(*args, **kwargs)
+        self.fields['bin_type'].required = True

@@ -7,9 +7,29 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-from .models import User, products, usersContacts, usersrecycling,userpoint,quizForm,mapsForm
+from .models import User, products, usersContacts, usersrecycling,quizForm,mapsForm, ShopForm
 from django import forms
-from .forms import PrivateSignUpForm, CorpSignUpForm, ProductForm, UserDetailsForm, UserDetailsEditForm, UserRecyclingForm
+from .forms import PrivateSignUpForm, CorpSignUpForm, ProductForm, UserDetailsForm, UserDetailsEditForm, UserRecyclingForm, storeProductForm
+
+
+@login_required
+def rate(request):
+    loginuser = request.user
+    checkadmin = loginuser.is_superusera
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+    return render(request, 'rate.html', {'userType': usertype})
+
+@login_required
+def home(request):
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+    return render(request, 'home.html', {'userType': usertype})
+
 @login_required
 def master(request):
     loginuser = request.user
@@ -17,8 +37,6 @@ def master(request):
     usertype = loginuser.user_type
     if checkadmin:
         usertype = "a"
-
-    
 
     return render(request, 'master.html', {'userType': usertype})
 
@@ -44,10 +62,10 @@ def contact_view(request):
         contact_text = request.POST.get('contactText')
         new_contact = usersContacts(user=userObj, content = contact_text)
         new_contact.save()
-        return HttpResponse("Data successfully inserted!")
+        return HttpResponseRedirect("/website/home/")
     else:
         return render(request, 'contact_form.html', {'userType': usertype})
-    
+
 
 def display_contacts(request):
     loginuser = request.user
@@ -100,7 +118,7 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('/')
+                return HttpResponseRedirect("/website/home/")
             else:
                 messages.error(request, "Invalid username or password")
         else:
@@ -112,7 +130,7 @@ def logout_view(request):
     return redirect('/')
 
 def addproduct(request):
-    pagetitle = 'הוסף מוצר חדש'
+    pagetitle = 'הוסף מוצר מיחזור חדש'
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
@@ -157,8 +175,8 @@ def searchProduct(request):
 	return HttpResponse(template.render(context, request))
 
 def productslist(request):
-    all_products = products.objects.all()
-    return render(request, 'products_list.html', {'products': all_products})
+    recycling_products = products.objects.filter(Product_type=False)
+    return render(request, 'products_list.html', {'products': recycling_products})
 
 @login_required
 def userform(request):
@@ -221,6 +239,7 @@ def userRecyclingform(request):
         form = UserRecyclingForm()
 
     return render(request, 'user_recycling.html', {'form': form, 'userType': usertype})
+
 @login_required
 def display_photos(request):
     loginuser = request.user
@@ -228,103 +247,123 @@ def display_photos(request):
     usertype = loginuser.user_type
     if checkadmin:
         usertype = "a"
-    oks = usersrecycling.objects.order_by('status', 'creationDT')
+    oks = usersrecycling.objects.filter(status=0).order_by('creationDT')
     return render(request, 'display_photos.html', {'contacts': oks, 'userType': usertype})
 
 @login_required
-def approve_status(request, pk):
-    item = usersrecycling.objects.get(pk=pk)
-    item.status = True
-    item.save()
+def approve_status(request, pk, userID):
+    recycling_row = usersrecycling.objects.get(pk=pk)
+    recycling_user = User.objects.get(id=userID)
+    recycling_row.status = 1
+    recycling_row.save()
+    oldPoints = recycling_user.points
+    newPoints = oldPoints + 10
+    recycling_user.points = newPoints
+    recycling_user.save()
     return HttpResponseRedirect("/website/display_photos/")
 
 
 @login_required
 def disapprove_status(request, pk):
-    item = usersrecycling.objects.get(pk=pk)
-    item.status = False
-    item.save()
+    recycling_row = usersrecycling.objects.get(pk=pk)
+    recycling_row.status = 2
+    recycling_row.save()
     return HttpResponseRedirect("/website/display_photos/")
 
-
-@login_required
-def Userpointform(request):
-    if request.user.is_authenticated:  # בדיקה האם המשתמש מחובר
-        loginuser = request.user
-        checkadmin = loginuser.is_superuser
-        usertype = loginuser.user_type if hasattr(loginuser, 'user_type') else None
-
-        if checkadmin:
-            usertype = "a"
-        else:
-            usertype = "private" if usertype == 'private' else "public"
-
-        private_users = User.objects.filter(user_type=False)
-
-        for user in private_users:
-            if not hasattr(user, 'userpoint'):
-                user.userpoint = userpoint.objects.create(user=user, points=0)
-            elif user.userpoint.points is None:
-                user.userpoint.points = 0
-                user.userpoint.save()
-
-        if request.method == 'POST':
-            user_id = request.POST.get('user_id')
-            points = request.POST.get('points')
-
-            user = User.objects.get(id=user_id)
-            user_points, created = userpoint.objects.get_or_create(user=user)
-            user_points.points = points
-            user_points.save()
-            return HttpResponse("Data successfully inserted!")
-        else:
-            return render(request, 'user_point.html', {'userType': usertype, 'private_users': private_users})
-    else:
-        return HttpResponse("User not authenticated!")
-def update_points(request):
-    if request.method == 'POST':
-        user_id = request.POST.get('user_id')
-        product_id = request.POST.get('product_id')
-        status = request.POST.get('status')
-
-        if status == 'True':  
-            user = User.objects.get(id=user_id)
-            product = products.objects.get(id=product_id)
-
-            recycling_instance = usersrecycling.objects.create(user=user, product=product, status=True)
-
-            user_points, created = userpoint.objects.get_or_create(user=user)
-
-            user_points.points += 10
-            user_points.save()
-
-            return HttpResponse("Points updated successfully!")
-
-    return HttpResponse("Invalid request")
 
 
 @login_required
 def quiz(request):
     return render(request, 'quiz.html')
 
-@login_required
-def check_answer(request, question_id):
-    if request.method == 'POST':
-        question = get_object_or_404(question, pk=question_id)
-        selected_option = request.POST.get('answer')  
-        correct_answer = question.correct_answer
 
-        if selected_option == correct_answer:
-            user = request.user
-            user_points, created = user_points.objects.get_or_create(user=user)
-            user_points.points += 10 
-            user_points.save()
-
-
-        return HttpResponse("Answer checked successfully!")
-    else:
-        return HttpResponse("Invalid request!")
     
 @login_required
 def maps(request):
     return render(request, 'maps.html')
+
+
+
+@login_required
+def addstoreproduct(request):
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+    pagetitle = 'הוספת מוצר חנות'
+    if request.method == 'POST':
+        form = storeProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            store_product_instance = form.save(commit=False)
+            store_product_instance.Product_type = True
+            store_product_instance.save()
+
+            # Redirect to a success page or wherever you want
+            return redirect('adminstore')
+    else:
+        form = storeProductForm()
+    return render(request, 'store_product_form.html', {'form': form, 'pagetitle': pagetitle, 'userType': usertype})
+
+
+@login_required
+def updatestoreproduct(request, pk):
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+    pagetitle = 'עדכון פרטי מוצר'
+    product = products.objects.get(id=pk)
+    form = storeProductForm(instance=product) # prepopulate the form with an existing band
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+
+            # Redirect to a success page or wherever you want
+            return redirect('adminstore')
+    return render(request, 'store_product_form.html', {'form': form, 'pagetitle': pagetitle, 'userType': usertype})
+
+
+
+@login_required
+def store(request):
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+    store_products = products.objects.filter(Product_type=True)
+    return render(request, 'store.html', {'products': store_products, 'userType': usertype, 'userObj': loginuser})
+
+@login_required
+def updatepoints(request, pk):
+    productObj = products.objects.get(pk=pk)
+    loginuser = request.user
+    pValue = productObj.value
+    oldPoints = loginuser.points
+    newPoints = oldPoints - pValue
+    loginuser.points = newPoints
+    loginuser.save()
+
+    return HttpResponseRedirect("/website/store/")
+
+@login_required
+def updatepointsquiz(request, pVal):
+    loginuser = request.user
+    oldPoints = loginuser.points
+    newPoints = oldPoints + pVal
+    loginuser.points = newPoints
+    loginuser.save()
+    return HttpResponseRedirect("/website/home/")
+
+@login_required
+def adminstore(request):
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+    store_products = products.objects.filter(Product_type=True)
+    return render(request, 'adminStore.html', {'products': store_products, 'userType': usertype})
