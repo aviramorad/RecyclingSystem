@@ -7,7 +7,7 @@
 
 {% block content %}
     <h1>עריכת הפרופיל שלי</h1>
-    <form id="editUserDetails" method="post" action="{% url 'userEditform' %}">
+    <form id="editUserDetails" method="post" action="{% url 'userform' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" id="submitForm" value="שמור">

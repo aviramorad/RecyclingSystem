@@ -1,8 +1,12 @@
-<!DOCTYPE html>
-<html>
-<body>
+{% extends "master.html" %}
+{% load static %}
+{% block title %}
+מאגר מוצרים
+{% endblock %}
 
-<h1>רשימת מוצרים</h1>
+{% block content %}
+<h1>מאגר מוצרים</h1>
+<a href="{% url 'addproduct' %}">הוספת מוצר</a>
 <table>
 
     {% for p in products %}
@@ -12,6 +16,5 @@
         </tr>
     {% endfor %}
 </table>
-<a href="{% url 'addproduct' %}">הוספת מוצר</a>
-</body>
-</html>
+
+{% endblock %}

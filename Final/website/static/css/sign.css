@@ -5,14 +5,12 @@
 }
 
 body {
-    background-image: url('https://cmr-kataria.com/wp-content/uploads/2021/06/Why-Is-Recycling-Important.png');
     background-size: cover;
     background-position: center;
 }
 
 header {
     height: 50vh; /* Adjust the height as needed */
-    /* Remove background-color to allow the body's background image to show through */
     background-size: cover;
     background-position: center;
     min-height: 100px;

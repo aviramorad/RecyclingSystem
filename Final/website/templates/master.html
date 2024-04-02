@@ -33,16 +33,19 @@
                                         <a href="{% url 'userform' %}">פרטים אישיים</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'home' %}">עדכון שאלות חידון</a>
+                                        <a href="{% url 'quiz' %}">עדכון שאלות חידון</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'productslist' %}">רשימת מוצרים</a>
+                                        <a href="{% url 'adminstore' %}">עדכון חנות אינטרנטית</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'contact_view' %}">מחיקת משתמשים</a>
+                                        <a href="{% url 'productslist' %}">מאגר מוצרים</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'contact_view' %}">פניות משתמשים</a>
+                                        <a href="{% url 'data_user' %}">מאגר משתמשים</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'display_contacts' %}">פניות משתמשים</a>
                                     </li>
                                     <li>
                                         <a href="{% url 'logout' %}">להתנתקות ויציאה</a>
@@ -57,7 +60,7 @@
                                         <a href="{% url 'userform' %}">פרטים אישיים</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'login' %}">חידון</a>
+                                        <a href="{% url 'quiz' %}">חידון</a>
                                     </li>
                                     {% if not userType %}
                                         <li>
@@ -75,7 +78,10 @@
                                         <a href="{% url 'searchProduct' %}">מידע מוצרים</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'login' %}">חנות</a>
+                                        <a href="{% url 'store' %}">חנות</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'rate' %}">דירוג האתר</a>
                                     </li>
                                     <li>
                                         <a href="{% url 'logout' %}">להתנתקות ויציאה</a>

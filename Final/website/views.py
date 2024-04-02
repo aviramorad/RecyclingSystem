@@ -10,12 +10,26 @@ from django.template import loader
 from .models import User, products, usersContacts, usersrecycling,quizForm,mapsForm, ShopForm
 from django import forms
 from .forms import PrivateSignUpForm, CorpSignUpForm, ProductForm, UserDetailsForm, UserDetailsEditForm, UserRecyclingForm, storeProductForm
+from django.contrib.admin.views.decorators import staff_member_required
 
+def index(request):
+    return render(request, 'index.html')
+
+
+@staff_member_required
+@login_required
+def delete_user(request, user_id):
+    if not request.user.is_superuser:
+        return redirect('/website/home/')  # Redirect if user is not admin
+    
+    user = User.objects.get(pk=user_id)
+    deleted = user.delete()
+    return redirect('/website/data_user/')  # Redirect to home page or any other page
 
 @login_required
 def rate(request):
     loginuser = request.user
-    checkadmin = loginuser.is_superusera
+    checkadmin = loginuser.is_superuser
     usertype = loginuser.user_type
     if checkadmin:
         usertype = "a"
@@ -96,7 +110,7 @@ class privateuser_register(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('/')
+        return redirect('/website/home/')
 
 class corpuser_register(CreateView):
     model = User
@@ -106,7 +120,7 @@ class corpuser_register(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('/')
+        return redirect('/website/home/')
 
 
 def login_request(request):
@@ -155,7 +169,6 @@ def updateproduct(request, pk):
     return render(request, 'product_form.html', {'form': form, 'pagetitle': pagetitle})
 
     
-
 def searchProduct(request):
 	myproducts = products.objects.all().values()
 	template = loader.get_template('searchProduct.html')
@@ -194,10 +207,11 @@ def userform(request):
     if usertype == False:
         form.fields['comp_num'].widget = forms.HiddenInput()
 
-    return render(request, 'user_form.html', {'form': form, 'userType': usertype})
+    return render(request, 'user_form.html', {'form': form, 'userType': usertype, 'checkAdmin': checkadmin})
 
 @login_required
 def userEditform(request):
+    #צריך לשלוח את הסוג משתמש בכל דף כדי להציג את התפריט הנכון לפי משתמש
     loginuser = request.user
     checkadmin = loginuser.is_superuser
     usertype = loginuser.user_type
@@ -207,16 +221,91 @@ def userEditform(request):
     #
     userObj = User.objects.get(id=userID)
 
-    form = UserDetailsEditForm(instance=userObj) 
+    form = UserDetailsEditForm(instance=userObj) # prepopulate the form with an existing band
     if usertype == False:
         form.fields['comp_num'].widget = forms.HiddenInput()
     if request.method == 'POST':
         form = UserDetailsEditForm(request.POST, instance=userObj)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect("/website/userform/")
+            # Redirect to a success page or wherever you want
+            return HttpResponseRedirect("/website/home/")
 
     return render(request, 'edit_user_details.html', {'form': form, 'userType': usertype})
+
+@login_required
+def recycling_bin(request):
+    #צריך לשלוח את הסוג משתמש בכל דף כדי להציג את התפריט הנכון לפי משתמש
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    userID = loginuser.id
+    userLocation = loginuser.location
+    if checkadmin:
+        usertype = "a"
+    
+    recycling_data = usersrecycling.objects.filter(user__location=userLocation)  # ניגשנו לשדה בתוך שדה עם __
+    context = {
+        
+        'recycling_data': recycling_data,
+        'userType': usertype,
+    }
+    return render(request, 'recycling_bin.html', context)
+
+@login_required
+def my_authority(request):
+    #צריך לשלוח את הסוג משתמש בכל דף כדי להציג את התפריט הנכון לפי משתמש
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    userID = loginuser.id
+    userLocation = loginuser.location
+    if checkadmin:
+        usertype = "a"
+    
+    recycling_data = User.objects.filter(location=userLocation)  # ניגשנו לשדה בתוך שדה עם __
+    context = {
+        
+        'recycling_data': recycling_data,
+        'userType': usertype,
+    }
+    return render(request, 'my_authority.html', context)
+
+@login_required
+def data_recycling(request):
+    #צריך לשלוח את הסוג משתמש בכל דף כדי להציג את התפריט הנכון לפי משתמש
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    userID = loginuser.id
+    userLocation = loginuser.location
+    if checkadmin:
+        usertype = "a"
+    
+    recycling_data = usersrecycling.objects.all()  # ניגשנו לשדה בתוך שדה עם __
+    context = {
+        
+        'recycling_data': recycling_data,
+    }
+    return render(request, 'data_recycling.html', context)
+
+@login_required
+def data_user(request):
+    #צריך לשלוח את הסוג משתמש בכל דף כדי להציג את התפריט הנכון לפי משתמש
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    userID = loginuser.id
+    userLocation = loginuser.location
+    if checkadmin:
+        usertype = "a"
+    
+    recycling_data = User.objects.all()  # ניגשנו לשדה בתוך שדה עם __
+    context = {
+        
+        'recycling_data': recycling_data,
+    }
+    return render(request, 'data_user.html', context)
 
 @login_required
 def userRecyclingform(request):
@@ -278,7 +367,6 @@ def quiz(request):
 
 
     
-@login_required
 def maps(request):
     return render(request, 'maps.html')
 
@@ -367,3 +455,5 @@ def adminstore(request):
         usertype = "a"
     store_products = products.objects.filter(Product_type=True)
     return render(request, 'adminStore.html', {'products': store_products, 'userType': usertype})
+
+

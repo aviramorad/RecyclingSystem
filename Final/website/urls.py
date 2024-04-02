@@ -3,6 +3,7 @@ from . import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    path ('/', views.index, name='index' ),
     path('home/',views.home, name='home'),
     path('rate/',views.rate, name='rate'),
     path('master/', views.master, name='master'),
@@ -42,4 +43,10 @@ urlpatterns = [
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view
          (template_name="password_reset_done.html"),
           name= "password_reset_complete"),
+     path('recycling_bin/', views.recycling_bin, name='recycling_bin'),
+     path('my_authority/', views.my_authority, name='my_authority'),
+     path('data_recycling/', views.data_recycling, name='data_recycling'),
+     path('data_user/', views.data_user, name='data_user'),
+     path('delete_user/<int:user_id>/', views.delete_user, name='delete_user'),
+
 ]

@@ -6,10 +6,10 @@ class User(AbstractUser):
 	last_name = models.CharField(max_length=50)
 	email = models.EmailField(max_length=100, unique=True)
 	USER_TYPE_CHOICES = (
-		(False, 'Private'),
-		(True, 'Corporation'),
+		(0, 'Private'),
+		(1, 'Corporation')
 	)
-	user_type = models.BooleanField(default=False, choices=USER_TYPE_CHOICES)
+	user_type = models.SmallIntegerField(default=0, choices=USER_TYPE_CHOICES)
 	location = models.CharField(max_length=50)
 	comp_num = models.PositiveIntegerField(blank=True, null=True)
 	points = models.PositiveIntegerField(default=0)

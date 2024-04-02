@@ -218,7 +218,8 @@ const resultsElement = document.getElementById('results');
 let currentQuestionIndex = 0;
 let correctAnswers = 0;
 let totalScore = 0;
-const totalQuestions = Math.min(questions.length, 10);
+const totalQuestions = 5;
+// const totalQuestions = Math.min(questions.length, 10);
 // Shuffle questions array
 function shuffleQuestions() {
     for (let i = questions.length - 1; i > 0; i--) {
@@ -278,8 +279,11 @@ function disableButtons() {
 }
 // Display results
 function displayResults() {
-    resultsElement.innerHTML = `<p>תשובות נכונות: ${correctAnswers} מתוך ${totalQuestions}</p>`;
-    resultsElement.innerHTML += `<p>ניקוד סופי: ${totalScore}</p>`;
+    alert("ענית על " + correctAnswers + "תשובות נכונות נוספו לך  " + totalScore + " נקודות");
+    window.location.href = "http://127.0.0.1:8000/website/updatepointsquiz/" + totalScore; // Replace 'home' with your actual URL name for the home page
+    // resultsElement.innerHTML = `<p>תשובות נכונות: ${correctAnswers} מתוך ${totalQuestions}</p>`;
+    // resultsElement.innerHTML += `<p>ניקוד סופי: ${totalScore}</p>`;
+
 }
 
 shuffleQuestions();

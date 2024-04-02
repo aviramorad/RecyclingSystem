@@ -17,9 +17,9 @@ class PrivateSignUpForm(UserCreationForm):
     @transaction.atomic
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.usertype = False
+        user.user_type = 0
         user.first_name = self.cleaned_data.get('first_name')
-        user.last_name = self.cleaned_data.get('last_name')  # Fixed typo here
+        user.last_name = self.cleaned_data.get('last_name')  
         user.email = self.cleaned_data.get('email')
         user.location = self.cleaned_data.get('location')
         if commit:
@@ -39,8 +39,7 @@ class CorpSignUpForm(UserCreationForm):
     @transaction.atomic
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.usertype = True
-        user.is_staff = True
+        user.user_type = 1
         user.first_name = self.cleaned_data.get('first_name')
         user.last_name = self.cleaned_data.get('last_name')  
         user.email = self.cleaned_data.get('email')
@@ -83,7 +82,7 @@ class storeProductForm(forms.ModelForm):
 class UserDetailsForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["id", "username", "first_name", "last_name", "email", "location", "comp_num"]
+        fields = ["id", "username", "first_name", "last_name", "email", "location", "comp_num", "points"]
         labels = {
             "id": _("מזהה"),
             "username": _("שם משתמש"),
@@ -92,6 +91,7 @@ class UserDetailsForm(forms.ModelForm):
             "email": _("אימייל"),
             "location": _("עיר מגורים"),
             "comp_num": _("ח.פ"),
+            "points": _("הנקודות שלי"),
         }
         help_texts = {
             'username': '',
