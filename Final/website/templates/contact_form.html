@@ -1,17 +1,84 @@
 {% extends "master.html" %}
-
+{% load static %}
 {% block title %}
     צור קשר
 {% endblock %}
 
 {% block content %}
-<h1>מלא את פנייתך</h1>
-<form id="contactform" method="post" action="{% url 'contact_view' %}">
-    {% csrf_token %}
-    <input type="hidden" name="user_id" id="user_id" value="{{ request.user.id }}">
-    <textarea name="contactText" id="contactText" rows="10" cols="30"></textarea>
+<style>
+    .container {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        width: 50%;
+        margin: 0 auto;
+        
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    textarea {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: calc(100% - 22px);
+    }
+
+    input[type="submit"] {
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    #successMessage {
+        display: none;
+        color: green;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="container">
     <br>
-    <input type="submit" id="submitForm" value="שמור">
-</form>
+    <br>
+    <br>
+    <h1>מלא את פנייתך</h1>
+    <form id="contactform" method="post" action="{% url 'contact_view' %}" onsubmit="showAlertAndRedirect(event)">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" id="user_id" value="{{ request.user.id }}">
+        <div class="form-group">
+            <label for="contactText">תוכן הפנייה:</label>
+            <textarea name="contactText" id="contactText" rows="10" cols="30"></textarea>
+        </div>
+        <input type="submit" id="submitForm" value="שלח">
+    </form>
+</div>
 
 {% endblock %}
+
+{% block extra_js %}
+<script>
+    function showAlertAndRedirect(event) {
+        event.preventDefault();
+        alert('הפנייה נשלחה בהצלחה!');
+        event.target.submit();
+        document.getElementById('successMessage').style.display = 'block';
+    }
+</script>
+{% endblock extra_js %}

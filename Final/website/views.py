@@ -322,8 +322,7 @@ def userRecyclingform(request):
             user_recycling_instance = form.save(commit=False)
             user_recycling_instance.user = request.user
             user_recycling_instance.save()
-            messages.success(request, 'Your data has been saved successfully.')
-            return HttpResponse("Data successfully inserted!")
+        return HttpResponseRedirect("/website/userrecycling/")
     else:
         form = UserRecyclingForm()
 
@@ -365,10 +364,20 @@ def disapprove_status(request, pk):
 def quiz(request):
     return render(request, 'quiz.html')
 
+def view(request):
+    return render(request, 'maps.html')
+
+ 
+def about(request):
+    return render(request, 'about.html')
 
     
 def maps(request):
     return render(request, 'maps.html')
+
+    
+def recycle_bins(request):
+    return render(request, 'recycle.html')
 
 
 

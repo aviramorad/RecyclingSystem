@@ -1,0 +1,27 @@
+
+.top-bar {
+    display: flex;
+    align-items: center; 
+    height: 60px; 
+    background-color: #23672f; 
+    color: #fff; 
+    padding: 10px 20px; 
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    right: 0; 
+    z-index: 1000; 
+}
+
+.top-bar a {
+    display: inline-block; 
+    text-align: center;
+    margin-left: 90px; 
+    color: #fff; 
+    text-decoration: none; 
+}
+
+.top-bar a:hover {
+    color: #6dcb87; 
+}
+

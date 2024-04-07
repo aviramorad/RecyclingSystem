@@ -1,10 +1,70 @@
 {% extends "master.html" %}
-
-{% block title %}
-    דף הבית
-{% endblock %}
+{% load static %}
 
 {% block content %}
-    <h1>דף הבית</h1>
+    <div class="container">
+        <br>
+        <br>
+        <h1>דף הבית שלי</h1>
+        <img src="https://i.giphy.com/RHLmtMl6mYWK6s3p8V.webp" style="width: 180px; height: auto;">
+        <p>איזה כיף שחזרת לאתר!</p>
+        <p>באתר מוצעים מגוון רחב של תכנים בנושא מיחזור, השפעת מיחזור, משחקים ושאלות ותכנים נוספים.</p>
+        <br>
+        <h3>בדף זה תוכלו למצוא מידי חודש משחק חודשי, מאמרים בנושא מיחזור וסביבה ותמונה חודשית מנצחת שנבחרת על ידי מנהלי האתר ממאגר דיווחי המיחזור</h3>
+        <img src="https://static.wixstatic.com/media/f70ab3_678e2c6df3164a2194c5c451d1b94e85~mv2.gif" style="width: 50px; height: 100px;">
+        <br>
+        <br>
 
+        <div class="box2">
+            <h1>המשחק החודשי</h1>
+            <img src="https://www.yo-yoo.co.il/tifzorot/tiffaace.png" alt="משחק החודש">
+            <p>עליך למצוא את המילים הבאות:</p>
+            <ul>
+                <li>איכות</li>
+                <li>סביבה</li>
+                <li>מחזור</li>
+                <li>הגנה</li>
+                <li>ירוק</li>
+                <li>היברידי</li>
+                <li>חסכוני</li>
+                <li>צמחימ</li>
+                <li>חיות</li>
+                <li>טבע</li>
+                <li>אקולוגיה</li>
+                <li>כדור</li>
+                <li>הארצ</li>
+                <li>פסולת</li>
+                <li>קרינה</li>
+            </ul>
+            <h3>בסוף החודש יעלה הפיתרון ,בהצלחה!</h3>
+        </div>
+        <div class="box3">
+            <h2>מאמרים מומלצים בנושא מיחזור:</h2>
+        
+            <div>
+                <h4>מהי פסולת מתכתית ומדוע כדאי לשלוח אותה למחזור?</h4>
+                <p><a href="https://michzoryarok.co.il/what-is-metallic-waste-and-why-should-it-be-sent-for-recycling/" class="button-link">לחץ כאן למידע נוסף</a></p>
+            </div>
+        
+            <div>
+                <h4>מיחזור מוצרי חשמל</h4>
+                <p><a href="https://www.gaia-israel.co.il/%d7%9e%d7%99%d7%97%d7%96%d7%95%d7%a8-%d7%9e%d7%95%d7%a6%d7%a8%d7%99-%d7%97%d7%a9%d7%9e%d7%9c/" class="button-link">לחץ כאן למידע נוסף</a></p>
+            </div>
+        </div>
+        <div class="box4">
+           <h2>תמונת החודש:</h2>
+        <p>כל חודש נבחר תמונה אחת מבין כל הדיווחים שמשקפת את המיחזור בצורה הכי טובה.</p>
+        <p>נשמח שתדווחו לנו על מיחזור שביצעתם ואולי תהיו בלוח זה בקרוב.</p>
+        <h3>ברכות למשפחת הופליינר שנבחרו החודש! כל הכבוד</h3>
+        <img src="https://www.emojiall.com/images/240/telegram/1f44f.gif" style="width:100px; height: 100px;" alt="כפיים">
+        <img src="https://images1.ynet.co.il/PicServer5/2018/08/23/8732175/873217401001599640360no.jpg" style="width: 500px; height: 400px;" alt="תמונת החודש">
+    </div>
+</div>
+    
+
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 {% endblock %}

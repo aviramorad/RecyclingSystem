@@ -1,34 +1,55 @@
+{% extends "master.html" %}
 {% load static %}
 
+{% block title %}
+חיפוש מוצר
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/master.css' %}">
+  <style>
+    body {
+      background-size: cover;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .centered {
+      text-align: center;
+    }
+  </style>
+{% endblock %}
 
 {% block content %}
-  <link rel="stylesheet" href="{% static 'css/searchProduct.css' %}">
-  <title>חיפוש מוצר</title>
-    <div class="container">
-        <h1>בחירת מוצר למיחזור</h1>
-        <form action="{% url 'searchProduct' %}" method="POST">
-            {% csrf_token %}
-            <label for="browser">: אנא בחר את המוצר הרצוי למיחזור</label>
-            {% if selected_product %}
-                <input list="myproducts" name="browser" id="browser" value="{{selected_product.product_name }}">
-            {% else %}
-                <input list="myproducts" name="browser" id="browser">
-            {% endif %}
-            <datalist id="myproducts">
-                {% for product in myproducts %}
-                    <option value="{{ product.product_name }}">
-                {% endfor %}
-            </datalist>
-            <input type="submit">
-        </form>
-
+<div class="container" style="background-color: rgba(255, 255, 255, 0.8); box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); border-radius: 10px; padding: 20px;">
+    <h1 style="color: #008000; text-align: center; margin-bottom: 20px;">בחירת מוצר למיחזור</h1>
+    <form action="{% url 'searchProduct' %}" method="POST" style="text-align: center;">
+        {% csrf_token %}
+        <label for="browser">: אנא בחר את המוצר הרצוי למיחזור</label>
         {% if selected_product %}
-          <div class="centered">
-            <h2>שם המוצר הרצוי למיחזור: {{ selected_product.product_name }} </h2>
-            <h3> את המוצר יש למחזר ב: פח ה{{ selected_product.bin_type }}</h3>
-            <h4>במיחזור זה אתה צובר: {{ selected_product.value }} נקודות</h4>
-          </div>
+            <input list="myproducts" name="browser" id="browser" value="{{selected_product.product_name }}" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
+        {% else %}
+            <input list="myproducts" name="browser" id="browser" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
         {% endif %}
+        <datalist id="myproducts">
+            {% for product in myproducts %}
+                <option value="{{ product.product_name }}">
+            {% endfor %}
+        </datalist>
+        <div class="centered">
+            <input type="submit" value="חיפוש" class="btn btn-block btn-primary" style="background-color: rgba(39, 128, 73, 0.8); color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px; cursor: pointer; border: none; margin-top: 20px; transition: background-color 0.3s;">
+        </div>
+    </form>
+
+    {% if selected_product %}
+    <div class="centered">
+        <h3>שם המוצר הרצוי למיחזור: <br>{{ selected_product.product_name }} </h3>
+        <h3> את המוצר יש למחזר ב: פח ה{{ selected_product.bin_type }}</h3>
+        <h3>במיחזור זה אתה צובר: {{ selected_product.value }} נקודות</h3>
     </div>
-    <button onclick=" window.location.href='/'" class="btn btn-green">חזרה לעמוד הראשי</button>
+    {% endif %}
+</div>
 {% endblock %}

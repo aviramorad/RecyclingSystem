@@ -115,7 +115,6 @@ USE_TZ = True
 MEDIA_URL = '/Final/usersImgs/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'usersImgs')
 
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR /'website'/'static'

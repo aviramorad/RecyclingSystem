@@ -5,10 +5,102 @@
 {% endblock %}
 
 {% block content %}
-<h1>מלא פרטי מיחזור</h1>
-<form id="recyclingform" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="שמור">
-</form>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: rgba(255, 255, 255, 0.8); 
+    }
+
+    .container {
+        background-color: rgba(255, 255, 255, 0.8); 
+        padding: 50px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    input[type="submit"] {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #67e86b; 
+        color: white; 
+        font-size: 16px; 
+        cursor: pointer; 
+        font-weight: bold; 
+    }
+
+    input[type="submit"]:hover {
+        background-color: #4CAF50;
+    }
+
+    #successMessage {
+        display: none;
+        color: green;
+        font-weight: bold;
+    }
+        input[type="submit"] {
+        background-color: #23672f;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #287039;
+    }
+
+    select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+    }
+
+    select:focus {
+        border-color: #23672f;
+        outline: none;
+    }
+</style>
+
+<div class="container">
+    <h1>מלא פרטי מיחזור</h1>
+    <form id="recyclingform" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="שמור">
+    </form>
+
+    <div id="successMessage">הדיווח המיחזור בוצע בהצלחה!</div>
+</div>
+
+{% block extra_js %}
+<script>
+    // הצגת התראה ופעולה לאחר ביצוע הפעולה
+    function showAlertAndRedirect(event) {
+        event.preventDefault(); 
+        alert('הדיווח המיחזור בוצע בהצלחה!');
+        event.target.submit(); 
+        document.getElementById('successMessage').style.display = 'block';
+        setTimeout(function() {
+            window.location.href = "http://127.0.0.1:8000/website/home/"; 
+        }, 3000); 
+    }
+    
+    // קישור הפונה לפונקציה לאחר ביצוע הטופס
+    document.getElementById('recyclingform').addEventListener('submit', showAlertAndRedirect);
+</script>
+{% endblock extra_js %}
 {% endblock %}

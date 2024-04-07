@@ -1,38 +1,103 @@
+{% extends "master.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="he">
-<head>
+{% block title %}
+דף הבית
+{% endblock %}
+
+{% block extra_css %}
     <meta charset="UTF-8">
-    <title>צעד למיחזור</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-    <script src="{% static 'js/scripts.js' %}"></script>
- 
-</head>
-<body>
-    <h1> ברוכים הבאים</h1>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/master.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}
 
-    <a href="{% url 'register' %}">הרשמו עכשיו</a> <br>
-    <a href="{% url 'login' %}">להתחברות</a> <br>
-    <a href="{% url 'searchProduct' %}">לחיפוש מחזור מוצרים לפי פח</a><br>
-    <a href="{% url 'maps' %}">לפריסת פחים לפי מיקום</a><br>
-    {% if user.is_authenticated %}
-    <a href="{% url 'logout' %}">להתנתקות ויציאה</a> <br>
+{% block content %}
+    <div class="content">
+        <br>
+        <br>
+        <h1 class="green-text">צעד למיחזור</h1>
+        <img src="https://i.giphy.com/RHLmtMl6mYWK6s3p8V.webp" style="width: 180px; height: auto;">
+        <br>
+        <br>
+        <br>
+        <p class="site-description">
+            אם אתם מחפשים דרך לקדם את המטרה החשובה של מחזור ושמירה על סביבת החיים שלנו, מעולה, אתם במקום הנכון!<br>
+            באתר שלנו תוכלו למצוא מגוון של שירותים ומידע אשר יקנה לכם כלים והנחיות למחזור נכון ויעיל!<br>
+            אנו מזמינים אתכם לגלות מאמרים מעניינים, טיפים והמלצות ולהשתמש בכלים שיש באתר על מנת להפוך את המחזור לנכון ופשוט ככל האפשר ועל הדרך גם להרוויח בפרסים שווים!<br>
+        </p>
+        <img src="https://static.wixstatic.com/media/f70ab3_678e2c6df3164a2194c5c451d1b94e85~mv2.gif" style="width: 50px; height: 100px;">
+        <br>
+        <br>
+        <br>
+        <!-- תיבת עובדות על מיחזור -->
+        <div class="box">
+            <h2>למה חשוב למחזר?</h2>
+            <p>במחזור טמון המפתח לסביבה נקייה ובריאה יותר. הפרדת פסולת במקור מאפשרת לנו להגן על הסביבה ומקורות המחיה שלנו.</p>
+            <p>חייבים לפעול להפחתת כמויות הפסולת, כי ישראל יש רק אחת!</p>
+            <p>במעשים פשוטים אנחנו יכולים לחסוך לעצמנו כסף רב, לחסוך לרשויות את עלויות הפינויים ולצמצם את הררי האשפה הנערמים בארצנו היפה.</p>
+            <p>במעשים פשוטים אנחנו יכולים להקטין את היקף השימוש בקרקעות לצורך הטמנה של פסולת.</p>
+            <p>והכי חשוב - במעשים פשוטים אנחנו יכולים לתרום את חלקנו למען ארצנו, למען ילדנו, למען יאריכו ימינו בארץ נקייה יותר ובריאה יותר.</p>
+        </div>
 
-    <div class="btn__container">
-        <a href="https://www.instagram.com/" class="btn">
-            <i class="fab fa-instagram"></i>
-            <span>Instagram</span>
-        </a>
-        <a href="https://www.facebook.com/?locale=he_IL" class="btn-f">
-            <i class="fab fa-facebook"></i>
-            <span>Facebook</span>
-        </a>
-        <a href="https://web.whatsapp.com/" class="btn-w">
-            <i class="fab fa-whatsapp"></i>
-            <span>WhatsApp</span>
-        </a>
+        <!-- תיבת תמונות מיחזור -->
+        <div class="box">
+            <h2>תמונות מיחזור</h2>
+            <br>
+            <br>
+            <div class="image-container">
+                <img src="https://www.clearancesolutionsltd.co.uk/wp-content/uploads/2023/05/recycling-1536x1063.jpg" alt="תמונת מיחזור 1">
+                <img src="https://i.dailymail.co.uk/1s/2021/11/25/01/50944827-0-image-a-126_1637803530538.jpg" alt="תמונת מיחזור 2">
+                <img src="https://api.hub.jhu.edu/factory/sites/default/files/styles/soft_crop_1030/public/recycled_plastic.jpg" alt="תמונת מיחזור 3">
+                <img src="https://images1.ynet.co.il//PicServer5/2019/03/15/9123124/91231150100387640360no.jpg" alt="תמונת מיחזור 4">
+                <img src="https://img.mako.co.il/2022/08/25/shutterstock_1586464285_re_autoOrient_w.jpg" alt="תמונת מיחזור 5">
+                <img src="https://www.myavne.co.il/sites/yavne/UserContent/images/2017/11/NEWS/PACH/00.jpg" alt="תמונת מיחזור 6">
+                <img src="https://hofesh.biz/wp-content/uploads/2018/08/%D7%9B%D7%9E%D7%94-%D7%90%D7%A9%D7%A4%D7%94-%D7%90%D7%A0%D7%97%D7%A0%D7%95-%D7%9E%D7%99%D7%99%D7%A6%D7%A8%D7%99%D7%9D-%D7%91%D7%90%D7%9E%D7%AA.jpg" alt="תמונת מיחזור 8">
+                <img src="https://res.cloudinary.com/globes/image/upload/t_desktop_article_content_header_800%2A392,f_auto/v1645606683/direct/%D7%A6%D7%99%D7%9C%D7%95%D7%9D-_%D7%90%D7%99%D7%A0%D7%A4%D7%99%D7%A0%D7%99%D7%94_axav6p.jpg" alt=" 9">
+                <br>
+                <br>
+            </div>
+        </div>
+        <div class="statistics-box box">
+            <h2>נתונים סטטיסטיים</h2>
+            <div class="statistics-data">
+                <p>כמות הפחים ברחבי הארץ: 250,112</p>
+                <p>כמות הפסולת שנאספה: 179,917 טון</p>
+            </div>
+        </div>
+        <div class="recycle-container">
+            <div class="recycle-description">
+                <h2>תהליך המיחזור</h2>
+                <p>
+                    מיחזור הוא תהליך בו מפרקים פסולת ומחזירים אותה למצב של חומר גלם, אשר ישמש לייצור מוצרים חדשים. המחזור מאפשר חיסכון בחומרי גלם בתוליים ומצמצם את כמויות הפסולת והזיהום, ועל כן נודעת לו חשיבות גם כלכלית וגם אקולוגית.
+                </p>
+            </div>
+            <div class="recycle-image">
+                <img src="https://media.licdn.com/dms/image/D4D12AQH25rObVelDDg/article-cover_image-shrink_720_1280/0/1673587619639?e=2147483647&v=beta&t=qU9mAJ-y9T322fjc3QEysqxh84juWFRJLPlymiba9Yk" style="width:700px; height: 300px;" alt="תמונת מיחזור">
+            </div>
+        </div>
     </div>
-    {% endif %}
-</body>
-</html>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        const imageContainer = document.querySelector('.image-container');
+        const images = Array.from(document.querySelectorAll('.image-container img'));
+        const filteredImages = images.filter(img => img.src); // סינון התמונות שיש להן כתובת תמונה
+        let currentIndex = 0;
+        const changeInterval = 3000; 
+        
+        // פונקציה להחלפת התמונה הפעילה
+        function changeImage() {
+            filteredImages[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % filteredImages.length;
+            filteredImages[currentIndex].classList.add('active');
+            setTimeout(changeImage, changeInterval);
+        }
+    
+        imageContainer.addEventListener('click', () => {
+            filteredImages[currentIndex].classList.toggle('active');
+        });
+    
+        changeImage();
+    </script>
+{% endblock %}

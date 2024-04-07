@@ -5,30 +5,59 @@
 {% endblock %}
 
 {% block content %}
-<h1>  הרשות שלי</h1>
-<table>
+<div class="container" style="background-color: rgba(255, 255, 255, 0.8);">
+    <br>
+    <br>
+    <br>
+    <h1>הרשות שלי</h1>
+    <style>
+        
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
 
-    <tr>
-        <th>שם משתמש</th>
-        <th>שם פרטי</th>
-        <th>שם משפחה</th>
-        <th>אימייל</th>
-        <th>עיר מגורים</th>
-        <th>התחבר לאחרונה  </th>
-      </tr>
-    {% for p in recycling_data %}
+    h1 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+    </style>
+    <table style=" width: 100%; margin-bottom: 20px; border-collapse: collapse;text-align: center;">
         <tr>
-            <!-- אני ניגשת לשדה הראשון עם הנקודה הראשונה ואז לשדה שאני רוצה בתוך הטבלה של הראשון -->
+            <style>
+
+                th, td {
+                    padding: 10px;
+                    border-bottom: 1px solid #ccc;
+                }
+            
+                th {
+                    background-color: #f2f2f2;
+                }
+            </style>
+            <th>שם משתמש</th>
+            <th>שם פרטי</th>
+            <th>שם משפחה</th>
+            <th>אימייל</th>
+            <th>עיר מגורים</th>
+            <th>התחבר לאחרונה</th>
+        </tr>
+        {% for p in recycling_data %}
+        <tr>
             <td>{{ p.username }}</td>
-            <td>{{ p.first_name }}</td> 
+            <td>{{ p.first_name }}</td>
             <td>{{ p.last_name }}</td>
             <td>{{ p.email }}</td>
             <td>{{ p.location }}</td>
-            <td>{{ p.last_login }}</td> 
-            
+            <td>{{ p.last_login }}</td>
         </tr>
-    {% endfor %}
-    
-</table>
-<a href="{% url 'userform' %}"> חזרה לפרופיל שלי</a>
+        {% endfor %}
+    </table>
+    <a href="{% url 'userform' %}" style="display: inline-block; padding: 8px 12px; margin: 5px; font-size: 14px; text-decoration: none; color: #fff; background-color: #389862; border: 2px solid transparent; border-radius: 3px; cursor: pointer; transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;">חזרה לפרופיל שלי</a>
+
 {% endblock %}

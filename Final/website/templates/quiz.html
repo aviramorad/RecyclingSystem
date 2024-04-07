@@ -1,21 +1,112 @@
 {% extends "master.html" %}
 {% load static %}
+{% block title %}
+חידון
+{% endblock %}
+{% block extra_css %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/quiz.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/master.css' %}">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: rgba(255, 255, 255, 0.8); 
+            font-family: Calibri, sans-serif;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 50px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        button[type="button"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button[type="button"]:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .edit-button, .delete-button {
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .edit-button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            margin-right: 5px;
+        }
+
+        .edit-button:hover {
+            background-color: #0b7dda;
+        }
+
+        .delete-button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+
+        .delete-button:hover {
+            background-color: #da190b;
+        }
+    </style>
+{% endblock %}
 {% block content %}
-    <html lang="he">
-    <head>
-        <meta charset="UTF-8">
-        <title>צעד למיחזור</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-    </head>
-    <body>
+<body>
+    <div class="container" id="container">
+        <br>
+        <br>
         <h1>חידון</h1>
 
         {% if user.user_type == 0 and not user.is_superuser %}
-        <div id="container">
-            <h1>חידון</h1>
-            <div id="questions"></div>
-            <div id="results"></div>
-        </div>
+        <div id="questions"></div>
+        <div id="results"></div>
         <script src="{% static 'js/scripts.js' %}"></script>
         {% elif user.user_type == 1 %}
         אינך מורשה לבצע חידון בתור רשות.
@@ -37,7 +128,6 @@
             <button type="button" onclick="addQuestion()">הוסף שאלה</button>
         </form>
 
-    
         <h1>השאלות שנוספו</h1>
         <table id="questionTable">
             <tr>
@@ -45,7 +135,6 @@
                 <th>אפשרויות</th>
             </tr>
         </table>
-
 
         <script>
             let questions = JSON.parse(localStorage.getItem('questions')) || []; // Retrieve questions from Local Storage
@@ -110,8 +199,8 @@
                     let cell3 = row.insertCell(2);
                     cell1.innerHTML = questions[i].index;
                     cell2.innerHTML = questions[i].question;
-                    cell3.innerHTML = '<button onclick="editQuestion(' + i + ')">עריכה</button>' +
-                                    '<button onclick="deleteQuestion(' + i + ')">מחיקה</button>';
+                    cell3.innerHTML = '<button class="edit-button" onclick="editQuestion(' + i + ')">עריכה</button>' +
+                                    '<button class="delete-button" onclick="deleteQuestion(' + i + ')">מחיקה</button>';
                 }
             }
 
@@ -141,6 +230,7 @@
             }
         </script>
         {% endif %}
-    </body>
-    </html>
+    </div>
+</body>
+</html>
 {% endblock %}

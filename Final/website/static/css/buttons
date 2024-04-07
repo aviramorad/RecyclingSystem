@@ -55,7 +55,7 @@
  
  .btn-w:hover,
  .btn-w:active {
-   background-color: #41e76d;
+   background-color: #76d890;
  }
  
  .btn-f:hover,

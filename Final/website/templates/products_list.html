@@ -1,20 +1,92 @@
 {% extends "master.html" %}
 {% load static %}
 {% block title %}
-מאגר מוצרים
+    מאגר מוצרים
 {% endblock %}
 
 {% block content %}
-<h1>מאגר מוצרים</h1>
-<a href="{% url 'addproduct' %}">הוספת מוצר</a>
-<table>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: rgba(255, 255, 255, 0.8);
+        font-family: Calibri, sans-serif;
+    }
 
-    {% for p in products %}
-        <tr>
-            <td>{{ p.product_name }}</td>
-            <td><a href="{% url 'updateproduct' p.id %}">עדכון</a></td>
-        </tr>
-    {% endfor %}
-</table>
+    .container {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 50px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .add-product-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 5px;
+        background-color: #56be83;
+        color: white;
+        text-decoration: none;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .add-product-btn:hover {
+        background-color: #176b32;
+    }
+
+    /* סגנון כפתור עדכון */
+    .update-btn {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 5px;
+        background-color: #8993d5;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .update-btn:hover {
+        background-color: #2d4aa2;
+    }
+</style>
+
+<div class="container">
+    <br>
+    <h1>מאגר מוצרים</h1>
+    <a href="{% url 'addproduct' %}" class="add-product-btn">הוספת מוצר</a>
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>שם מוצר</th>
+                <th>עדכון</th>
+            </tr>
+            {% for p in products %}
+                <tr>
+                    <td>{{ p.product_name }}</td>
+                    <td><a href="{% url 'updateproduct' p.id %}" class="update-btn">עדכון</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
 
 {% endblock %}

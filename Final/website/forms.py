@@ -128,7 +128,6 @@ class UserDetailsEditForm(forms.ModelForm):
         if password:
             return make_password(password)
         return password
-
 class UserRecyclingForm(forms.ModelForm):
     class Meta:
         model = usersrecycling
@@ -141,7 +140,6 @@ class UserRecyclingForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserRecyclingForm, self).__init__(*args, **kwargs)
         self.fields['product'].queryset = products.objects.filter(Product_type=False)
-
 
 
 class shopDigital(forms.ModelForm):

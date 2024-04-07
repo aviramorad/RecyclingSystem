@@ -15,7 +15,6 @@ class usersrecyclingAdmin(admin.ModelAdmin):
   list_display = ("id", "creationDT", "user", "product", "userImg", "status",)
 
 
-
 admin.site.register(products, ProductAdmin)
 admin.site.register(User, usersAdmin)
 admin.site.register(usersContacts, usersContactsAdmin)

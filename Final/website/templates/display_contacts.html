@@ -5,7 +5,77 @@
 {% endblock %}
 
 {% block content %}
-    <h1>פניות משתמשים</h1>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: rgba(255, 255, 255, 0.8); 
+        font-family: Calibri, sans-serif;
+    }
+
+    .container {
+        background-color: rgba(255, 255, 255, 0.8); 
+        padding: 50px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.8); 
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .transparent-box {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .approve-btn {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        background-color: #8f98cd; 
+        color: white; 
+        text-decoration: none;
+        font-size: 16px; 
+        transition: background-color 0.3s ease; 
+        cursor: pointer; 
+        font-weight: bold; 
+    }
+
+    .approve-btn:hover {
+        background-color: #4e48c4; 
+    }
+
+    .approved-row {
+        background-color: #b7e1b5; 
+    }
+</style>
+<div class="container transparent-box">
+    <div class="new1">
+        <br>
+        <br>
+
+        <h1>פניות משתמשים</h1>
+        <p>בדף זה ניתן לראות את כל פניות המשתמשים שטופלו וגם פניות שטרם טופלו</p>
+    </div>
+    
     <table>
         <tr>
             <th>תאריך</th>
@@ -17,14 +87,14 @@
         </tr>
 
         {% for c in contacts %}
-            <tr>
+            <tr {% if c.status %} class="approved-row" {% endif %}>
                 <td>{{ c.creationDT | date:"d/m/Y" }}</td>
                 <td>{{ c.user }}</td>
                 <td>{{ c.user.location }}</td>
                 <td>{{ c.content }}</td>
                 {% if not c.status %}
                     <td>ממתין לטיפול</td>
-                    <td><a href="{% url 'changestatus' c.id %}">סמן כטופל</a></td>
+                    <td><a href="{% url 'changestatus' c.id %}" class="approve-btn">סמן כטופל</a></td>
                 {% else %}
                     <td>טופל</td>
                     <td></td>
@@ -32,7 +102,5 @@
             </tr>
         {% endfor %}
     </table>
+</div>
 {% endblock %}
-
-
-    

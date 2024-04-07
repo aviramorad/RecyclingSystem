@@ -1,0 +1,133 @@
+{% extends "master.html" %}
+{% load static %}
+{% block title %}
+מידע על פחי המחזור
+{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/master.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <style>
+        body {
+            background-color: rgba(255, 255, 255, 0.8); 
+
+            
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .category {
+            border: 2px solid black;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.8); 
+        }
+
+        .category h1 {
+            margin: 0;
+            text-align: center;
+        }
+
+        .orange-box {
+            background-color: #f6b640;
+            color: black;
+        }
+
+        .purple-box {
+            background-color: #d758d7;
+            color: white;
+        }
+
+        .blue-box {
+            background-color: #698cd2;
+            color: white;
+        }
+
+        .green-box {
+            background-color: #74cb74;
+            color: white;
+        }
+
+        .gray-box {
+            background-color: #9e9b9b;
+            color: white;
+        }
+
+        .yellow-box {
+            background-color: #efef61;
+            color: black; 
+        }
+
+        .red-box {
+            background-color: #f66a6a;
+            color: white;
+        }
+        .center-text {
+    text-align: center;
+}
+
+    </style>
+{% endblock %}
+{% block content %}
+<div class="map-container" style=" background-color: rgba(255, 255, 255, 0.8); ">
+        <br>
+        <br>
+        <br>
+        <br>
+        <h1>מציאת פחי מיחזור</h1>
+        <p class="center-text">בדף זה תוכלו למצוא מידע על האשפה שניתן לזרוק בפחים השונים</p>
+
+        <div class="category orange-box">
+            <h1>פח הכתום</h1>
+            <p class="center-text">בפח זה זורקים אריזות פלסטיק, מתכת וקרטוני משקה</p>
+            <img src="https://www.tmir.org.il/images/pah_big_pict.png" style="width: 180px; height: auto; display: block; margin: 0 auto;">
+        </div>
+
+        <div class="category purple-box">
+            <h1>פח הסגול</h1>
+            <p class="center-text">בפח זה זורקים אריזות זכוכית .
+                לדוגמה: בקבוקי שמן זית, צנצנות קפה, בקבוקי בושם</p>
+            <img src="https://b.tmir.org.il/how-to/wp-content/uploads/2020/10/pach2.png" style="width: 180px; height: auto; display: block; margin: 0 auto;">
+
+        </div>
+
+        <div class="category blue-box">
+            <h1>פח הכחול</h1>
+            <p class="center-text">בפח זה זורקים נייר קרטון דק.
+                לדוגמה: אריזות פיצה, אריזות קרונפלקס, אריזות ביצים, עיתונים וניירות.</p>
+            <img src="https://b.tmir.org.il/how-to/wp-content/uploads/2020/10/pach1.png" style="width: 180px; height: auto; display: block; margin: 0 auto;">
+            </div>
+
+        <div class="category green-box">
+            <h1>פח הירוק</h1>
+            <p class="center-text">בפח זה זורקים אריזות.
+                לדוגמה: מוצריי היגיינה, חפצים שבורים, כלי חד פעמי, צעצועים ישנים.</p>
+            <img src="https://b.tmir.org.il/how-to/wp-content/uploads/2020/12/pach5.png" style="width: 180px; height: auto; display: block; margin: 0 auto;">
+            </div>
+
+        <div class="category gray-box">
+            <h1>פח האפור</h1>
+            <p class="center-text">בפח זה זורקים אריזות מתכת לדוגמא:סוללות </p>
+            <img src="https://static.ajproducts.com/resize/globalassets/777785.jpg?ref=F2ED26DADA&width=1810" style="width: 180px; height: auto; display: block; margin: 0 auto;">
+        </div>
+
+        <div class="category yellow-box">
+            <h1>מחזורית</h1>
+            <p class="center-text">בפח זה זורקים אריזות פלסטיק של חומרי ניקוי וטיפוח.
+                לדוגמה: אקונומיקה, נוזל כביסה, שמפו...</p>
+            <img src="https://b.tmir.org.il/how-to/wp-content/uploads/2022/01/pach6.png" style="width: 180px; height: auto; display: block; margin: 0 auto;">
+
+        </div>
+
+        <div class="category red-box">
+            <h1>קרטוניה</h1>
+            <p class="center-text">בפח זה זורקים אריזות קרטון עבה
+                לדוגמה: קרטוני אריזות, חבילות משלוח גדולות..</p>
+            <img src="https://b.tmir.org.il/how-to/wp-content/uploads/2020/10/pach4.png" style="width: 180px; height: auto; display: block; margin: 0 auto;">
+
+        </div>
+    </div>
+{% endblock %}

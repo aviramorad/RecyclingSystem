@@ -1,11 +1,79 @@
+{% extends "master.html" %}
 {% load static %}
+{% block title %}
+פריסת פחים
+{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/master.css' %}">
+    <style>
+        body {
+            background-color: rgba(255, 255, 255, 0.8); 
+            font-family: Calibri, sans-serif;
+
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .map-container {
+            border: 2px solid black;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+
+        .purple-box {
+            background-color: purple;
+            color: white;
+        }
+
+        .gray-box {
+            background-color: gray;
+            color: white;
+        }
+
+         .all-box {
+            background-color: rgb(68, 140, 171);
+            color: white;
+        }
+         .add-box {
+            background-color: rgb(209, 213, 81);
+            color: white;
+        }
+    </style>
+{% endblock %}
 
 {% block content %}
-<title>פריסת פחים</title>
-     <h1>מציאת פחי מיחזור</h1> 
-     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-        <h2>מיקומי פחי מיחזור סגולים</h2>
-        <iframe id='ifrMap' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' width='1000' height='800' src='https://www.govmap.gov.il/map.html?bb=1&zb=1&in=1&c=199667.51,749042.72&z=4&lay=GLASS_RECYLCE_STANDS'></iframe>
-        <h3>מיקומי פחי מיחזור אפורים</h3>
-        <iframe width="1000" height="800" src="https://www.google.com/maps/d/embed?mid=1dBKmGGsNA2u6KreBBZdKg_vz_Xu4jyCV&hl=iw&ehbc=2E312F"></iframe>
-    {% endblock %}
+    <h1>מציאת פחי מיחזור</h1>
+
+    <div class="map-container">
+        <h1>מציאת פחי מיחזור</h1>
+        <p>בדף זה תוכלו למצוא מגוון מפות למציאת הפחים השונים</p>
+    
+     <div class="map-container all-box">
+        <h2> מפת המחזור - נקודות איסוף פסולת למחזור בישראל</h2>
+        <p>איפה אפשר למחזר בקבוקי פלסטיק? ומה עם סוללות? זוהי מפה המרכזת את כל המחזוריות, נקודות איסוף פסולת ממוינת - מחזור נהיה קל וזמין! בקבוקי פלסטיק, פלסטיק, קרטון, נייר, מתכת, סוללות, קלקר, זכוכית ועוד. שמים את הסביבה על המפה!</p>
+        <iframe src="https://www.google.com/maps/d/embed?mid=1xOsInrujJ7iI0hJDmNjCw6uxynQ&hl=en_US&ehbc=2E312F" width="1000" height="800"></iframe>    </div>
+
+    <div class="map-container purple-box">
+        <h2>מפת הפח הסגול-נקודות ציון של הפחים הסגולים ברחבי המדינה</h2>
+        <iframe id='ifrMap2' width="1000" height="800" src="https://www.govmap.gov.il/map.html?bb=1&zb=1&in=1&c=199667.51,749042.72&z=4&lay=GLASS_RECYLCE_STANDS"></iframe>
+    </div>
+    <div class="map-container add-box">
+        <h2>מפה עם נקודות איסוף -מוצרי זכוכית,בגדים משומשים,קומפוסטרים,קרטונים ופסולת אלקטרונית</h2>
+        <iframe src="https://www.google.com/maps/d/embed?mid=1wJz-RIlxVbMSFZVR1b19Ld4BkjM&hl=iw&ehbc=2E312F" width="1000" height="800"></iframe>    </div>
+
+    <div class="map-container gray-box">
+        <h2>מפת הפח האפור-נקודות ציון של הפחים  האפוריים ברחבי המדינה</h2>
+        <iframe id='ifrMap3' width="1000" height="800" src="https://www.google.com/maps/d/embed?mid=1dBKmGGsNA2u6KreBBZdKg_vz_Xu4jyCV&hl=iw&ehbc=2E312F"></iframe>
+    </div>
+{% endblock %}

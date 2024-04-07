@@ -1,0 +1,119 @@
+{% extends "master.html" %}
+{% load static %}
+{% block title %}
+אודות
+{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/master.css' %}">
+    <style>
+        body {
+            background-color: rgba(255, 255, 255, 0.8); 
+            font-family: Calibri, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: rgb(10, 113, 29);
+        }
+
+        .map-container {
+            text-align: center;
+            border: 2px solid black;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .link-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: rgb(10, 113, 29);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .link-button:hover {
+            background-color: rgb(8, 94, 24);
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>אודות</h1>
+    <div class="map-container">
+        <br>
+        <h1>אודות</h1>
+        <p>ברוכים הבאים לאתר "צעד למיחזור"!
+        <br>
+        אנו חברי קבוצת המפתחים של האתר, סטודנטים בשנה השנייה להנדסת תוכנה במכללת סמי שמעון בבאר שבע.
+        <br>
+         אנו פועלים במסגרת קורס יסודות הנדסת תוכנה, והאתר נוצר על מנת לפתור בעיה בתחום איכות הסביבה.
+         <br>
+         בעזרת האתר אנו מעוררים את המודעות לביצוע פעולות מיחזור ומעודדים את הציבור להתעסק בנושא.
+        
+        <br>
+        המטרה העיקרית של האתר היא לקדם את ביצוע פעולות המיחזור ולהנגיש את המידע הכרוך בנושא זה בצורה מעשית ונגישה לכולם.
+        
+        <br>
+        אנו משתמשים בכלים טכנולוגיים כדי להעלות את המודעות לחשיבות המיחזור ולעזור לכל אחד לתרום לשינוי חיובי בסביבה.
+        
+        <br>
+        כמו כן, אנו מזמינים אתכם להיות חלק מהקהילה שלנו ולקחת חלק בפעילויות המיחזור שלנו. 
+        <br>
+        באמצעות האתר ניתן לקבל מידע מדויק ועדכני בנושא המיחזור, לקבל הנחיות וטיפים לפעולות מיחזור יעילות יותר, ולהתעדכן באירועים ופעילויות קשורות לנושא.
+        
+        <br>
+        האתר מתמקד בשקיפות ובפשטות, כך שכל משתמש יכול למצוא בו את המידע הרלוונטי ולהשתמש בו בקלות.
+        <br>
+         אנו מודים לכם על שיתוף הפעולה ומזמינים אתכם להתנסות ולגלות את העולם המרתק של המיחזור דרך האתר שלנו.
+        
+        <br>
+        אז למה לא להצטרף אלינו ולהיות חלק ממהפכת המיחזור? נשמח לראות אתכם פעילים ומשתתפים במאבק לשמירה על סביבתנו היקרה! 
+        
+        <h3>מנחים מקצועיים:</h3>
+        מרצה: ד"ר הדס חסידים
+        <br>
+        מתרגל: מר דין עזרא
+        
+        <br>
+        <h3>מפתחים :</h3>
+        
+        גברת תאיר שרה טובול
+        
+        <br>
+        מר מאור טל
+        
+        <br>
+        מר אבירם מורד
+        
+        <br>
+        גברת נועם דהן
+        
+        <h3>מקורות מידע שנעשה בהם שימוש באתר:</h3>
+        <a class="link-button" href="https://b.tmir.org.il/how-to/why-is-it-important-to-recycle/">מדוע חשוב למחזור? - חברת מערכות תשתיות מתקדמות</a>
+        
+        <a class="link-button" href="https://www.gov.il/he/departments/ministry_of_environmental_protection/govil-landing-page">משרד הסביבה - ישראל</a>
+        
+        <a class="link-button" href="https://www.gov.il/he/departments/guides/waste_facts_and_figures">נתוני פסולת ומיחזור - משרד הסביבה - ישראל</a>
+        
+        <a class="link-button" href="https://negevecology.co.il/">נגב אקולוגיה - סדרות נושאים - מיחזור</a>
+        
+        <a class="link-button" href="https://he.wikipedia.org/wiki/%D7%9E%D7%99%D7%97%D7%96%D7%95%D7%A8_%D7%91%D7%99%D7%A9%D7%A8%D7%90%D7%9C">מיחזור בישראל - ויקיפדיה</a>
+        
+        <br>
+        <br>
+        אנו מקווים שהאתר יעזור לכם להשיג ידע מועיל ולהפוך לפעילים בתחום המיחזור.
+        <br>
+         תודה רבה על התמיכה והשיתוף!</p>
+         <img src="https://i.giphy.com/RHLmtMl6mYWK6s3p8V.webp" style="width: 120px; height: auto;">
+
+        
+    </div>
+{% endblock %}

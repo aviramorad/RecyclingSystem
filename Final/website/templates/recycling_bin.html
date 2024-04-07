@@ -5,28 +5,44 @@
 {% endblock %}
 
 {% block content %}
-<h1>  נתוני מיחזור בעיר שלי  </h1>
-<table>
-    <tr>
-        <th>שם פרטי</th>
-        <th>שם משפחה</th>
-        <th>עיר מגורים</th>
-        <th>שם מוצר</th>
-        <th>סוג פח</th>
-      </tr>
 
-    {% for p in recycling_data %}
+<div class="container" style="background-color: rgba(255, 255, 255, 0.8); max-width: 800px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); text-align: center;">
+    <br>
+    <br>
+    <br>
+    <h1>  נתוני מיחזור בעיר שלי  </h1>
+    <table style="width: 100%; margin-bottom: 20px; border-collapse: collapse; text-align: center;">
         <tr>
-            <!-- אני ניגשת לשדה הראשון עם הנקודה הראשונה ואז לשדה שאני רוצה בתוך הטבלה של הראשון -->
+            <style>
+
+                th, td {
+                    padding: 10px;
+                    border-bottom: 1px solid #ccc;
+                    text-align: center;
+    
+                }
+            
+                th {
+                    background-color: #f2f2f2;
+                }
+            </style>    
+            <th>שם פרטי</th>
+            <th>שם משפחה</th>
+            <th>עיר מגורים</th>
+            <th>שם מוצר</th>
+            <th>סוג פח</th>
+        </tr>
+
+        {% for p in recycling_data %}
+        <tr>
             <td>{{ p.user.first_name }}</td> 
             <td>{{ p.user.last_name }}</td>
             <td>{{ p.user.location }}</td>
             <td>{{ p.product.product_name }}</td>
             <td>{{ p.product.bin_type }}</td>
-            
         </tr>
-    {% endfor %}
-    
-</table>
-<a href="{% url 'userform' %}"> חזרה לפרופיל שלי</a>
+        {% endfor %}
+    </table>
+    <a href="{% url 'userform' %}" style="display: inline-block; padding: 8px 12px; margin: 5px; font-size: 14px; text-decoration: none; color: #fff; background-color: #389862; border: 2px solid transparent; border-radius: 3px; cursor: pointer; transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;">חזרה לפרופיל שלי</a>
+</div>
 {% endblock %}

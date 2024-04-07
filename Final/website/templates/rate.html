@@ -6,22 +6,46 @@
 {% block extra_css %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/rate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            text-align: center;
+            margin: 50 px;
+        }
+
+        #submit-rating {
+            margin-top: 20px;
+            background-color: #58a13d; 
+            color: white; 
+            border: none;
+            padding: 10px 20px; 
+            border-radius: 5px; 
+            cursor: pointer;
+            transition: background-color 0.3s ease; 
+        }
+
+        #submit-rating:hover {
+            background-color: #405d27; 
+        }
+        
+    </style>
 {% endblock extra_css %}
 
 {% block content %}
-
-<div class="rating-box">
-    <header>נשמח לקבל משוב על העבודה שלנו</header>
-    <div class="stars">
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
+    <div class="rating-box">
+        <br>
+        <br>
+        <br>
+        <header>נשמח לקבל משוב על העבודה שלנו</header>
+        <div class="stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+        </div>
+        <button id="submit-rating">שלח</button>
     </div>
-    <button id="submit-rating">שלח</button>
-</div>
-
 {% endblock %}
 
 {% block extra_js %}

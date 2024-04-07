@@ -5,7 +5,83 @@
 {% endblock %}
 
 {% block content %}
-    <h1>אישור תמונות</h1>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: rgba(255, 255, 255, 0.8); 
+    }
+
+    .container {
+        background-color: rgba(255, 255, 255, 0.8); 
+        padding: 50px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.8); 
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    img {
+        height: 100px;
+        width: 100px;
+    }
+
+    .approve-btn {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        background-color: #67e86b; 
+        color: white; 
+        text-decoration: none;
+        font-size: 16px; 
+        transition: background-color 0.3s ease; 
+        cursor: pointer; 
+        font-weight: bold; 
+    }
+
+    .approve-btn:hover {
+        background-color: #4CAF50;
+    }
+
+    .disapprove-btn {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        background-color: #ff6b6b;
+        color: white; 
+        text-decoration: none;
+        font-size: 16px;
+        transition: background-color 0.3s ease; 
+        cursor: pointer;
+        font-weight: bold; 
+    }
+
+    .disapprove-btn:hover {
+        background-color: #d32f2f; 
+    }
+</style>
+
+<div class="container">
+    <h1>אישור דיווח על ידי תמונות</h1>
+    <p>בדף זה ניתן לראות את הדיווחים שטרם טופלו</p>
     <table>
         <tr>
             <th>תאריך</th>
@@ -25,21 +101,20 @@
                     <td>{{ c.product }}</td>
                     <td>
                         {% if not c.status %}
-                            <a href="{% url 'approve_status' c.id c.user.id %}">אושר</a> | 
-                            <a href="{% url 'disapprove_status' c.id %}">לא אושר</a>
+                            <a href="{% url 'approve_status' c.id c.user.id %}" class="approve-btn">אושר</a>
+                            <a href="{% url 'disapprove_status' c.id %}" class="disapprove-btn">לא אושר</a>
                         {% else %}
                             טופל
                         {% endif %}
                     </td>
-                    <td>
-                        {% if c.userImg %}
-                            <img src="{{ c.userImg.url }}" style="height: 100px; width: 100px;" alt="תמונה">
-                        {% else %}
-                            לא קיימת תמונה
-                        {% endif %}
-                    </td>
+                    {% if c.userImg %}
+                        <td><img src="{{ MEDIA_URL }}{{ c.userImg.url }}" alt="תמונה"></td>
+                    {% else %}
+                        <td>לא קיימת תמונה</td>
+                    {% endif %}
                 </tr>
             {% endif %}
         {% endfor %}
     </table>
+</div>
 {% endblock %}

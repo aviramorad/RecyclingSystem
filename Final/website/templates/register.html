@@ -1,27 +1,27 @@
+{% extends "master.html" %}
 {% load static %}
 {% load widget_tweaks %}
-<!DOCTYPE html>
-<html lang="he">
-
-<head>
+{% block title %}
+הרשמה לאתר
+{% endblock %}
+{% block extra_css %}
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>הרשמה</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
     <link rel="stylesheet" href="{% static 'css/sign.css' %}">
-</head>
+    <link rel="stylesheet" href="{% static 'css/master.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="button" style="background-color: rgba(255, 255, 255, 0.8); ">
+            <h1 style="color: green; font-weight: bold; font-size: 32px; text-align: center;">הרשמה</h1>
+            <br>
+            <a href="{% url 'corpuser_register' %}" class="btn">משתמש עירייה</a>
+            <a href="{% url 'privateuser_register' %}" class="btn">משתמש פרטי</a>
+            <br>
+            <br>
 
-<body>
-    <header>
-        <div class="main">
-            <div class="title">
-                <h1>הרשמה</h1>
-            </div>
-            <div class="button">
-                <a href="{% url 'corpuser_register' %}" class="btn">משתמש עירייה</a>
-                <a href="{% url 'privateuser_register' %}" class="btn">משתמש פרטי</a>
-            </div>
         </div>
-    </header>
-</body>
-
-</html>
+    </div>
+{% endblock %}

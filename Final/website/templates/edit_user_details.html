@@ -6,10 +6,14 @@
 
 
 {% block content %}
+<div style="direction: rtl; text-align: center; background-color: rgba(255, 255, 255, 0.8);">
+    <br>
+    <br>
+    <br>
     <h1>עריכת הפרופיל שלי</h1>
     <form id="editUserDetails" method="post" action="{% url 'userform' %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" id="submitForm" value="שמור">
+        <input type="submit" id="submitForm" value="שמור" style="display: inline-block; padding: 8px 12px; margin: 5px; font-size: 14px; text-decoration: none; color: #fff; background-color: #389862; border: 2px solid transparent; border-radius: 3px; cursor: pointer; transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;"></a>
     </form>
 {% endblock %}

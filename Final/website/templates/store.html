@@ -5,30 +5,135 @@
 {% endblock %}
 
 {% block content %}
+<style>
+    body {
+        background-color: #f7f7f7;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .sidebar {
+        width: 100px;
+        margin: 10px;
+    }
+
+    .sidebar img {
+        width: 100%;
+        border-radius: 5px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .content {
+        flex-grow: 1;
+        margin: 10px;
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        color: #159660;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid black;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    th {
+        background-color: #f2f2f2;
+        border-bottom: 1px solid black;
+    }
+
+    .pBtn {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .pBtn:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="container">
+    <div class="sidebar">
+        <img src="https://media.reshet.tv/image/upload/t_grid-item-large/v1687417760/uploads/2023/903579957.webp" alt="תמונה 7">
+        <img src="https://www.fitbander.com/cdn/shop/products/711cd8f16dd3d5dcacfc8784f46a6427_720x.jpg?v=1616419560" alt="תמונה 8">
+        <img src="https://directb2b.co.il/wp-content/uploads/2021/08/%D7%90%D7%95%D7%96%D7%A0%D7%99%D7%95%D7%AA-%D7%91%D7%9C%D7%95%D7%98%D7%95%D7%A1-%D7%90%D7%9C%D7%97%D7%95%D7%98%D7%99%D7%95%D7%AA-%D7%9B%D7%95%D7%9C%D7%9C-%D7%91%D7%A7%D7%A8%D7%AA-%D7%9E%D7%92%D7%A2-%D7%91%D7%A6%D7%91%D7%A2-%D7%9B%D7%97%D7%95%D7%9C-UGREEN-HiTune-X5-TWS-Bluetooth-5-4.webp" alt="תמונה 9">
+        <img src="https://limeshoes.co.il/wp-content/uploads/2022/05/4-8.jpg" alt="תמונה 10">
+        <img src="https://assets-global.website-files.com/6187fd75db2d26d82458161a/61913a2a130a2bf3a8360903_rav-kav.png" alt="תמונה 11">
+        <img src="https://static.wixstatic.com/media/9b4a09_796567d7d6a14a969fc19de9da3657a9~mv2.png/v1/fill/w_467,h_700,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/9b4a09_796567d7d6a14a969fc19de9da3657a9~mv2.png" alt="תמונה 12">
+        <img src="https://img.zap.co.il/pics/2/6/4/2/46572462c.gif" alt="תמונה 1">
+            </div>
     {% if not user.is_superuser %}
         <input id="userPoints" type="hidden" value="{{ userObj.points }}">
-        <h1>סך הנקודות שברשותך: {{ userObj.points }}</h1>
-        <table>
-            <tr>
-                <th>מוצר</th>
-                <th>מספר נקודות</th>
-                <th></th>
-            </tr>
-            {% for p in products %}
-                <input type="hidden" id="p_{{p.id}}" value="{{ p.value }}">
+        <div class="content">
+            <br>
+            <br>
+            <h1>ברוכים הבאים לחנות</h1>
+            <h2>סך הנקודות שברשותך: {{ userObj.points }}</h2>
+            <table>
                 <tr>
-                    <td>{{ p.product_name }}</td>
-                    <td>{{ p.value }}</td>
-                    <td>
-                        <button class="pBtn" id="{{p.id}}">לרכישה</button>
-                    </td>
+                    <th>מוצר</th>
+                    <th>מספר נקודות</th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-        </table>
+                {% for p in products %}
+                    <input type="hidden" id="p_{{p.id}}" value="{{ p.value }}">
+                    <tr>
+                        <td>{{ p.product_name }}</td>
+                        <td>{{ p.value }}</td>
+                        <td>
+                            <button class="pBtn" id="{{p.id}}">לרכישה</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     {% else %}
         {% url 'adminstore' as adminstore_url %}
         <script>window.location.href = "{{ adminstore_url }}";</script>
     {% endif %}
+    <div class="sidebar">
+        <img src="https://img.zap.co.il/pics/2/6/4/2/46572462c.gif" alt="תמונה 1">
+        <img src="https://www.fitbander.com/cdn/shop/products/711cd8f16dd3d5dcacfc8784f46a6427_720x.jpg?v=1616419560" alt="תמונה 2">
+        <img src="https://media.reshet.tv/image/upload/t_grid-item-large/v1687417760/uploads/2023/903579957.webp" alt="תמונה 7">
+        <img src="https://directb2b.co.il/wp-content/uploads/2021/08/%D7%90%D7%95%D7%96%D7%A0%D7%99%D7%95%D7%AA-%D7%91%D7%9C%D7%95%D7%98%D7%95%D7%A1-%D7%90%D7%9C%D7%97%D7%95%D7%98%D7%99%D7%95%D7%AA-%D7%9B%D7%95%D7%9C%D7%9C-%D7%91%D7%A7%D7%A8%D7%AA-%D7%9E%D7%92%D7%A2-%D7%91%D7%A6%D7%91%D7%A2-%D7%9B%D7%97%D7%95%D7%9C-UGREEN-HiTune-X5-TWS-Bluetooth-5-4.webp" alt="תמונה 3">
+        <img src="https://cdn.groo.co.il/_media/media/10505/144112.jpg" alt="תמונה 4">
+        <img src="https://assets-global.website-files.com/6187fd75db2d26d82458161a/61913a2a130a2bf3a8360903_rav-kav.png" alt="תמונה 5">
+        <img src="https://static.wixstatic.com/media/9b4a09_796567d7d6a14a969fc19de9da3657a9~mv2.png/v1/fill/w_467,h_700,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/9b4a09_796567d7d6a14a969fc19de9da3657a9~mv2.png" alt="תמונה 6">
+        <img src="https://media.reshet.tv/image/upload/t_grid-item-large/v1687417760/uploads/2023/903579957.webp" alt="תמונה 7">
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}

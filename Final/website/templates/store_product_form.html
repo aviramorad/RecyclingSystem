@@ -4,13 +4,83 @@
     הוספת מוצר חנות
 {% endblock %}
 
+
 {% block content %}
-<h1>{{ pagetitle }}</h1>
-<form id="storePform" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="שמור">
-</form>
+<style>
+    body {
+        background-color: rgba(255, 255, 255, 0.8); 
+    }
 
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .content-wrapper {
+        background-color: rgba(255, 255, 255, 0.9); 
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+        text-align: center; 
+    }
+
+    input[type="submit"] {
+        background-color: #23672f; 
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease; 
+    }
+
+    input[type="submit"]:hover {
+        background-color: #287039; 
+    }
+
+    input[type="text"],
+    input[type="password"],
+    textarea,
+    input[type="number"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        width: 100%;
+        box-sizing: border-box; 
+        transition: border-color 0.3s ease; 
+    }
+
+   input[type="text"]:focus,
+   input[type="password"]:focus,
+   textarea:focus {
+    border-color: #23672f; 
+    outline: none; 
+}
+</style>
+
+<body>
+    <div class="container">
+        <div class="content-wrapper">
+            <h1>{{ pagetitle }}</h1>
+        
+            <form id="storePform" method="post" enctype="multipart/form-data" onsubmit="showAlert()">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="שמור">
+            </form>
+        </div>
+    </div>
+</body>
+
+
+{% block extra_js %}
+<script>
+    function showAlert() {
+        alert('פעולה בוצעה בהצלחה !');
+    }
+</script>
 {% endblock %}
-
+{% endblock %}

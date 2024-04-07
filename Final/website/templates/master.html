@@ -3,117 +3,89 @@
 <html lang="he">
 <head>
   <title>{% block title %}{% endblock %}</title>
-    <style>
-        p {
-          background-image: url('https://i.natgeofe.com/k/e094f0a9-3cb3-40c3-afaf-314b6437ef14/ww-funny-animal-faces-goat_16x9.jpg');
-        }
-    </style>
-    <meta charset="UTF-8">
+  
+  {% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/master.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+  {% endblock %}
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-    {% block extra_css %}{% endblock extra_css%}
-    <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .top-bar {
+      direction: rtl;
+      font-family: Calibri; 
+
+    }
+    .top-bar a {
+      margin-left: 50px; 
+      font-family: Calibri; 
+
+    }
+  </style>
 </head>
+
 <body>
-<header>
-    <div class="container clearfix">   
+  <div class="top-bar">
+    {% if user.is_authenticated %}
+      {% if userType == "a" %}
+        <a href="{% url 'index' %}">דף הבית</a>
+        <a href="{% url 'userform' %}">פרטים אישיים</a>
+        <a href="{% url 'quiz' %}">עדכון שאלות חידון</a>
+        <a href="{% url 'adminstore' %}">עדכון חנות אינטרנטית</a>
+        <a href="{% url 'productslist' %}">מאגר מוצרים</a>
+        <a href="{% url 'data_user' %}">מאגר משתמשים</a>
+        <a href="{% url 'display_photos' %}"> דיווחי משתמשים</a>
+        <a href="{% url 'display_contacts' %}">פניות משתמשים</a>
+        <a href="{% url 'maps' %}">מיקום פחי מיחזור </a>
+        <a href="{% url 'about' %}">אודות</a>
+        <a href="{% url 'logout' %}">להתנתקות ויציאה</a>
+      {% else %}
+        <a href="{% url 'index' %}">דף הבית</a>
+        <a href="{% url 'userform' %}">פרטים אישיים</a> 
 
-        <div class= "navbar-wrapper">
-            <div class="container">
-                <nav class = "navbar navbar-inverse navbar-fixed-top" id="navbar_whole">
-                        <div id= "navbar" class="navbar-collapse collapse">
-                            {% if userType == "a" %}
-                                <ul class="nav navbar-nav">
-                                    <li>
-                                        <a href="{% url 'home' %}">דף הבית</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'userform' %}">פרטים אישיים</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'quiz' %}">עדכון שאלות חידון</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'adminstore' %}">עדכון חנות אינטרנטית</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'productslist' %}">מאגר מוצרים</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'data_user' %}">מאגר משתמשים</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'display_contacts' %}">פניות משתמשים</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'logout' %}">להתנתקות ויציאה</a>
-                                    </li>
-                                </ul>
-                            {% else %}
-                                <ul class="nav navbar-nav">
-                                    <li>
-                                        <a href="{% url 'home' %}">דף הבית</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'userform' %}">פרטים אישיים</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'quiz' %}">חידון</a>
-                                    </li>
-                                    {% if not userType %}
-                                        <li>
-                                            <a href="{% url 'userrecycling' %}">דיווח על מיחזור</a>
-                                        </li>
-                                    {% else %}
-                                        <li>
-                                            <a href="{% url 'login' %}">נתוני מחזור</a>
-                                        </li>
-                                    {% endif %}
-                                    <li>
-                                        <a href="{% url 'contact_view' %}">צור קשר</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'searchProduct' %}">מידע מוצרים</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'store' %}">חנות</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'rate' %}">דירוג האתר</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'logout' %}">להתנתקות ויציאה</a>
-                                    </li>
-                                </ul>
-                            {% endif %}
-                        </div>
-                </nav>
-            </div>
-        </div>
-    </div>
-</header>
+        {% if not userType %}
+          <a href="{% url 'userrecycling' %}"> דיווח על מיחזור</a>
+          <a href="{% url 'quiz' %}">חידון</a>
 
-{% block content %}
-{% endblock %}
+        {% else %}
+          <a href="{% url 'data_recycling' %}">נתוני מחזור</a>
+        {% endif %}
+        <a href="{% url 'recycle_bins' %}">מידע על פחי מיחזור</a>
+        <a href="{% url 'searchProduct' %}">מידע מוצרים</a>
+        <a href="{% url 'maps' %}">מיקום פחי מיחזור </a>
+        <a href="{% url 'rate' %}">דירוג האתר</a>
+        <a href="{% url 'contact_view' %}">צור קשר</a>
+        <a href="{% url 'about' %}">אודות</a>
+        <a href="{% url 'logout' %}">להתנתקות ויציאה</a>
 
-<footer>
-    <div class="btn__container">
-        <a href="https://www.instagram.com/" class="btn">
-            <i class="fab fa-instagram"></i>
-            <span>Instagram</span>
-        </a>
-        <a href="https://www.facebook.com/?locale=he_IL" class="btn-f">
-            <i class="fab fa-facebook"></i>
-            <span>Facebook</span>
-        </a>
-        <a href="https://web.whatsapp.com/" class="btn-w">
-            <i class="fab fa-whatsapp"></i>
-            <span>WhatsApp</span>
-        </a>
-    </div>
-</footer>
-{% block extra_js %}{% endblock extra_js %}
+      {% endif %}
+
+    {% else %}
+      <a href="{% url 'index' %}" class="green-link">דף הבית </a>
+      <a href="{% url 'register' %}" class="green-link">הרשמה </a>
+      <a href="{% url 'login' %}" class="green-link">התחברות</a>
+      <a href="{% url 'searchProduct' %}" class="green-link">מידע על מיחזור מוצרים</a>
+      <a href="{% url 'maps' %}" class="green-link">פריסת פחים לפי מיקום</a>
+      <a href="{% url 'recycle_bins' %}" class="green-link">מידע על פחי מיחזור</a>
+      <a href="{% url 'about'  %}" class="green-link">אודות</a>
+    {% endif %}
+
+    
+    <a href="https://www.whatsapp.com/" target="_blank">
+      <i class="fab fa-whatsapp" style="font-size: 30px;"></i>
+    </a>
+    <a href="https://www.instagram.com/" target="_blank">
+      <i class="fab fa-instagram" style="font-size: 30px;"></i>
+    </a>
+    <a href="https://www.facebook.com/" target="_blank">
+      <i class="fab fa-facebook" style="font-size: 30px;"></i>
+    </a>
+  </div>
+
+  {% block content %}
+  {% endblock %}
+
+  {% block extra_js %}
+  {% endblock %}
 </body>
 </html>

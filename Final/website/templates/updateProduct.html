@@ -1,18 +1,73 @@
 {% extends "master.html" %}
-
+{% load static %}
 {% block title %}
-    עדכון מוצר
+עדכון/הוספה מוצר
 {% endblock %}
 
 {% block content %}
-    {% if success %}
-      {{success}}
-    {% endif %}
-    <h1> עדכון פרטי מוצר </h1>
-    <form action="" method="post" novalidate>
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" value="Submit">
-    </form>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f0f0f0;
+    }
 
-  {% endblock %}
+    .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    input[type="submit"] {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4f5bdc;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #161065;
+    }
+
+    .success-message {
+        color: green;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container">
+    {% if success %}
+        <div class="success-message">{{ success }}</div>
+    {% endif %}
+    <h1>עדכון פרטי מוצר</h1>
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endblock %}
