@@ -28,7 +28,7 @@
   <div class="top-bar">
     {% if user.is_authenticated %}
       {% if userType == "a" %}
-        <a href="{% url 'index' %}">דף הבית</a>
+        <a href="{% url 'home' %}">דף הבית</a>
         <a href="{% url 'userform' %}">פרטים אישיים</a>
         <a href="{% url 'quiz' %}">עדכון שאלות חידון</a>
         <a href="{% url 'adminstore' %}">עדכון חנות אינטרנטית</a>
@@ -40,12 +40,14 @@
         <a href="{% url 'about' %}">אודות</a>
         <a href="{% url 'logout' %}">להתנתקות ויציאה</a>
       {% else %}
-        <a href="{% url 'index' %}">דף הבית</a>
+        <a href="{% url 'home' %}">דף הבית</a>
         <a href="{% url 'userform' %}">פרטים אישיים</a> 
 
-        {% if not userType %}
+        {% if not userType and userType != "a" %}
           <a href="{% url 'userrecycling' %}"> דיווח על מיחזור</a>
           <a href="{% url 'quiz' %}">חידון</a>
+          <a href="{% url 'store' %}">חנות</a>
+
 
         {% else %}
           <a href="{% url 'data_recycling' %}">נתוני מחזור</a>

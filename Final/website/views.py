@@ -20,11 +20,11 @@ def index(request):
 @login_required
 def delete_user(request, user_id):
     if not request.user.is_superuser:
-        return redirect('/website/home/')  # Redirect if user is not admin
+        return redirect('/website/home/')  
     
     user = User.objects.get(pk=user_id)
     deleted = user.delete()
-    return redirect('/website/data_user/')  # Redirect to home page or any other page
+    return redirect('/website/data_user/')  
 
 @login_required
 def rate(request):
@@ -51,7 +51,6 @@ def master(request):
     usertype = loginuser.user_type
     if checkadmin:
         usertype = "a"
-
     return render(request, 'master.html', {'userType': usertype})
 
 def register(request):
@@ -144,6 +143,12 @@ def logout_view(request):
     return redirect('/')
 
 def addproduct(request):
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+
     pagetitle = 'הוסף מוצר מיחזור חדש'
     if request.method == 'POST':
         form = ProductForm(request.POST)
@@ -153,9 +158,14 @@ def addproduct(request):
             return redirect('productslist')
     else:
         form = ProductForm()
-    return render(request, 'product_form.html', {'form': form, 'pagetitle': pagetitle})
+    return render(request, 'product_form.html', {'form': form, 'pagetitle': pagetitle, 'userType': usertype})
 
 def updateproduct(request, pk):
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
     pagetitle = 'עדכון פרטי מוצר'
     product = products.objects.get(id=pk)
     form = ProductForm(instance=product) # prepopulate the form with an existing band
@@ -166,30 +176,41 @@ def updateproduct(request, pk):
             # Redirect to a success page or wherever you want
             return redirect('productslist')
     
-    return render(request, 'product_form.html', {'form': form, 'pagetitle': pagetitle})
+    return render(request, 'product_form.html', {'form': form, 'pagetitle': pagetitle, 'userType': usertype})
 
     
 def searchProduct(request):
-	myproducts = products.objects.all().values()
-	template = loader.get_template('searchProduct.html')
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+    myproducts = products.objects.all().values()
+    template = loader.get_template('searchProduct.html')
+    if request.method == 'POST':
+        selected_product_name = request.POST.get('browser', '')
+        selected_product = products.objects.filter(product_name=selected_product_name).first()
 
-	if request.method == 'POST':
-		selected_product_name = request.POST.get('browser', '')
-		selected_product = products.objects.filter(product_name=selected_product_name).first()
-
-		context = {
-			'myproducts': myproducts,
-			'selected_product': selected_product,
-			}
-	else:
-		context = {
-		  'myproducts': myproducts,
-	  	}
-	return HttpResponse(template.render(context, request))
+        context = {
+            'myproducts': myproducts,
+            'selected_product': selected_product,
+            'userType': usertype
+            }
+    else:
+        context = {
+            'myproducts': myproducts,
+            'userType': usertype
+        }
+    return HttpResponse(template.render(context, request))
 
 def productslist(request):
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
     recycling_products = products.objects.filter(Product_type=False)
-    return render(request, 'products_list.html', {'products': recycling_products})
+    return render(request, 'products_list.html', {'products': recycling_products, 'userType': usertype})
 
 @login_required
 def userform(request):
@@ -284,7 +305,7 @@ def data_recycling(request):
     
     recycling_data = usersrecycling.objects.all()  # ניגשנו לשדה בתוך שדה עם __
     context = {
-        
+        'userType': usertype,
         'recycling_data': recycling_data,
     }
     return render(request, 'data_recycling.html', context)
@@ -302,7 +323,7 @@ def data_user(request):
     
     recycling_data = User.objects.all()  # ניגשנו לשדה בתוך שדה עם __
     context = {
-        
+        'userType': usertype,
         'recycling_data': recycling_data,
     }
     return render(request, 'data_user.html', context)
@@ -362,23 +383,46 @@ def disapprove_status(request, pk):
 
 @login_required
 def quiz(request):
-    return render(request, 'quiz.html')
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+    return render(request, 'quiz.html', {'userType': usertype})
 
 def view(request):
-    return render(request, 'maps.html')
-
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+    return render(request, 'maps.html', {'userType': usertype})
  
 def about(request):
-    return render(request, 'about.html')
-
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+    return render(request, 'about.html', {'userType': usertype})
     
 def maps(request):
-    return render(request, 'maps.html')
-
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+    return render(request, 'maps.html', {'userType': usertype})
+ 
     
 def recycle_bins(request):
-    return render(request, 'recycle.html')
-
+    loginuser = request.user
+    checkadmin = loginuser.is_superuser
+    usertype = loginuser.user_type
+    if checkadmin:
+        usertype = "a"
+    return render(request, 'recycle.html', {'userType': usertype})
+ 
 
 
 @login_required
@@ -464,5 +508,3 @@ def adminstore(request):
         usertype = "a"
     store_products = products.objects.filter(Product_type=True)
     return render(request, 'adminStore.html', {'products': store_products, 'userType': usertype})
-
-
