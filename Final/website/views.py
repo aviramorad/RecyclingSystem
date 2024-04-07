@@ -380,7 +380,6 @@ def disapprove_status(request, pk):
     return HttpResponseRedirect("/website/display_photos/")
 
 
-
 @login_required
 def quiz(request):
     loginuser = request.user
