@@ -4,15 +4,14 @@ from django.db.utils import IntegrityError
 from django.test import TestCase, RequestFactory, modify_settings, Client
 from django.urls import reverse
 from django.shortcuts import HttpResponse
-from django.contrib import messages
-from django.http import HttpResponse
-from .views import index, delete_user, rate, home, master, register, contact_view, display_contacts, changestatus, userEditform, userform, my_authority, recycling_bin, data_recycling, data_user, disapprove_status, approve_status
-from .forms import storeProductForm, PrivateSignUpForm, CorpSignUpForm
-
+from django.http import HttpResponse, HttpResponseRedirect
+from .views import index, delete_user, rate, home, master, register, contact_view, display_contacts, changestatus, userEditform, userform, my_authority, recycling_bin, data_recycling, data_user, disapprove_status, approve_status, userRecyclingform, display_photos
+from .forms import UserRecyclingForm
 
 @modify_settings(MIDDLEWARE_CLASSES={
     'append': 'django.contrib.sessions.middleware.SessionMiddleware',
 })
+
 class UserModelTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create(
@@ -110,7 +109,7 @@ class WebsiteProductsModelTests(unittest.TestCase):
                 self.assertTrue('CHECK constraint failed: value' in str(e))
                 raise
 
-class IndexTestCase(unittest.TestCase):
+class IndexTestCase(unittest.TestCase): ## Unit test of view function: index - home page
     def setUp(self):
         # Create a request factory
         self.factory = RequestFactory()
@@ -126,7 +125,7 @@ class IndexTestCase(unittest.TestCase):
         # Check that the response status code is 200 (OK)
         self.assertEqual(response.status_code, 200)
 
-class DeleteUserTestCase(TestCase):
+class DeleteUserTestCase(TestCase): ## Unit test of view function: delete_user
     def setUp(self):
         # Create a request factory
         self.factory = RequestFactory()
@@ -171,7 +170,7 @@ class RateHomeMasterTestCase(TestCase):
             username='testuser', email='testuser@example.com', password='password'
         )
 
-    def test_rate_view(self):
+    def test_rate_view(self): ## Unit test of view function: rate (דירוג האתר)
         # Create a GET request to the rate view as a logged-in user
         request = self.factory.get(reverse('rate'))
         request.user = self.user
@@ -180,7 +179,7 @@ class RateHomeMasterTestCase(TestCase):
         # Check that the response status code is 200 (OK)
         self.assertEqual(response.status_code, 200)
 
-    def test_home_view(self):
+    def test_home_view(self): ## Unit test of view function: home (דף בית)
         # Create a GET request to the home view as a logged-in user
         request = self.factory.get(reverse('home'))
         request.user = self.user
@@ -189,7 +188,7 @@ class RateHomeMasterTestCase(TestCase):
         # Check that the response status code is 200 (OK)
         self.assertEqual(response.status_code, 200)
 
-    def test_master_view(self):
+    def test_master_view(self): ## Unit test of view function: master (מאסטר)
         # Create a GET request to the master view as a logged-in user
         request = self.factory.get(reverse('master'))
         request.user = self.user
@@ -203,27 +202,27 @@ class RegisterLoginViewTestCase(TestCase):
         self.client = Client()
         self.factory = RequestFactory()
 
-    def test_privateuser_register(self):
+    def test_privateuser_register(self): ## Unit test of view function: private user register (הרשמה צרכן פרטי)
         response = self.client.post(reverse('privateuser_register'), {
             'username': 'testuser',
             'email': 'test3@example.com',
             'password1': 'testpassword',
             'password2': 'testpassword',
-            'user_type': 'private'  # Assuming 'private' is a valid user type
+            'user_type': 'private'  
         })
         self.assertEqual(response.status_code, 200)  # Check if the redirection is successful
 
-    def test_corpuser_register(self):
+    def test_corpuser_register(self): ## Unit test of view function: corporate user register (הרשמה משתמש רשות)
         response = self.client.post(reverse('corpuser_register'), {
             'username': 'testuser2',
             'email': 'test4@example.com',
             'password1': 'testpassword',
             'password2': 'testpassword',
-            'user_type': 'corporate'  # Assuming 'corporate' is a valid user type
+            'user_type': 'corporate'  
         })
         self.assertEqual(response.status_code, 200)  # Check if the redirection is successful
 
-    def test_login_request(self):
+    def test_login_request(self): ## Unit test of view function: login_Request (התחברות)
         User.objects.create_user(username='testuser2', password='testpassword', email='test4@example.com')
 
         response = self.client.post(reverse('login'), {
@@ -232,7 +231,7 @@ class RegisterLoginViewTestCase(TestCase):
         })
         self.assertEqual(response.status_code, 302)  # Check if the redirection is successful
 
-    def test_invalid_login_request(self):
+    def test_invalid_login_request(self): ## Unit test of view function: login_request (התחברות שגויה)
         response = self.client.post(reverse('login'), {
             'username': 'invaliduser',
             'password': 'invalidpassword'
@@ -240,14 +239,14 @@ class RegisterLoginViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)  # Check if the login page is rendered again
         self.assertContains(response, "", status_code=200)  # Check for the error message in the response
 
-    def test_register_view(self):
+    def test_register_view(self): ## Unit test of view function: register (דף ההרשמה)
         # Create a GET request to the register view
         request = self.factory.get(reverse('register'))
         response = register(request)
 
         # Check that the response status code is 200 (OK)
         self.assertEqual(response.status_code, 200)
-
+  
 class ContactViewsTestCase(TestCase):
     def setUp(self):
         # Create a request factory
@@ -258,7 +257,7 @@ class ContactViewsTestCase(TestCase):
             username='testuser', email='testuser@example.com', password='password'
         )
 
-    def test_contact_view_get(self):
+    def test_contact_view_get(self): ## Unit test of view function: contact_view (רשימת פניות)
         # Create a GET request to the contact_view
         request = self.factory.get(reverse('contact_view'))
         request.user = self.user
@@ -267,7 +266,7 @@ class ContactViewsTestCase(TestCase):
         # Check that the response status code is 200 (OK)
         self.assertEqual(response.status_code, 200)
 
-    def test_contact_view_post(self):
+    def test_contact_view_post(self): ## Unit test of view function: contact_view (רשימת פניות)
         # Create a POST request to the contact_view
         request = self.factory.post(reverse('contact_view'), {'user_id': self.user.id, 'contactText': 'Test message'})
         request.user = self.user
@@ -277,7 +276,7 @@ class ContactViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/website/home/')
 
-    def test_display_contacts_view(self):
+    def test_display_contacts_view(self): ## Unit test of view function: contact_view (רשימת פניות)
         # Create a GET request to the display_contacts view
         request = self.factory.get(reverse('display_contacts'))
         request.user = self.user
@@ -286,7 +285,7 @@ class ContactViewsTestCase(TestCase):
         # Check that the response status code is 200 (OK)
         self.assertEqual(response.status_code, 200)
 
-    def test_changestatus_view(self):
+    def test_changestatus_view(self): ## Unit test of view function: change_status (עדכון טיפול בפניה)
         # Create a POST request to the changestatus view
         contact = usersContacts.objects.create(user=self.user, content='Test contact')
         request = self.factory.post(reverse('changestatus', args=[contact.pk]))
@@ -303,16 +302,16 @@ class ViewsTestCase(TestCase):
         self.user = User.objects.create_user(username='testuser', password='testpassword')
         self.client.force_login(self.user)
 
-    def test_productslist(self):
+    def test_productslist(self): ## Unit test of view function: productslist (רשימת מוצרי מיחזור)
         response = self.client.get(reverse('productslist'))
         self.assertEqual(response.status_code, 200)
 
-    def test_searchProduct_post(self):
+    def test_searchProduct_post(self): ## Unit test of view function: searchproduct (חיפוש מוצר מיחזור)
         response = self.client.post(reverse('searchProduct'))
         self.assertEqual(response.status_code, 200)  # Adjust status code as needed
         # Add more assertions as needed
 
-    def test_updateproduct_post(self):
+    def test_updateproduct_post(self): ## Unit test of view function: updateproduct (עדכון מוצר מיחזור)
         # Create a product instance for testing
         product = products.objects.create(product_name='Test Product')
         response = self.client.post(reverse('updateproduct', kwargs={'pk': product.pk}))
@@ -327,7 +326,7 @@ class DataTestCase(TestCase):
         # Create a request factory
         self.factory = RequestFactory()
 
-    def test_userform(self):
+    def test_userform(self): ## Unit test of view function: userform (פרופיל משתמש)
         # Create a GET request to userform
         request = self.factory.get(reverse('userform'))
         request.user = self.user
@@ -337,7 +336,7 @@ class DataTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         # Add more assertions as needed
 
-    def test_userEditform(self):
+    def test_userEditform(self): ## Unit test of view function: edituserform (עדכון פרופיל משתמש)
         # Create a GET request to userEditform
         request = self.factory.get(reverse('userEditform'))
         request.user = self.user
@@ -347,7 +346,7 @@ class DataTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         # Add more assertions as needed
 
-    def test_recycling_bin(self):
+    def test_recycling_bin(self): ## Unit test of view function: recycling_bin (פחי מיחזור)
         # Create a GET request to recycling_bin
         request = self.factory.get(reverse('recycling_bin'))
         request.user = self.user
@@ -357,7 +356,7 @@ class DataTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         # Add more assertions as needed
 
-    def test_my_authority(self):
+    def test_my_authority(self): ## Unit test of view function: my_authority (הרשות שלי)
         # Create a GET request to my_authority
         request = self.factory.get(reverse('my_authority'))
         request.user = self.user
@@ -367,7 +366,7 @@ class DataTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         # Add more assertions as needed
 
-    def test_data_recycling(self):
+    def test_data_recycling(self): ## Unit test of view function: data_recycling (נתוני מיחזור)
         # Create a GET request to data_recycling
         request = self.factory.get(reverse('data_recycling'))
         request.user = self.user
@@ -377,7 +376,7 @@ class DataTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         # Add more assertions as needed
 
-    def test_data_user(self):
+    def test_data_user(self): ## Unit test of view function: data_user (נתוני משתמשים)
         # Create a GET request to data_user
         request = self.factory.get(reverse('data_user'))
         request.user = self.user
@@ -390,8 +389,8 @@ class DataTestCase(TestCase):
 class RecyclingTestCase(TestCase):
     def setUp(self):
         # Create a test user
-        self.user = User.objects.create_user(username='testuser', password='testpassword123')
-
+        self.user = User.objects.create_user(username='testuser', password='testpassword123', email="test5@example.com")
+        self.admin_user = User.objects.create_superuser(username='adminadmin', password='password', email= "testadmin5@example.com")
         # Create a test product
         self.product = products.objects.create(product_name='Test Product')
 
@@ -401,7 +400,7 @@ class RecyclingTestCase(TestCase):
         # Create a request factory
         self.factory = RequestFactory()
 
-    def test_approve_status(self):
+    def test_approve_status(self): ## Unit test of view function: approve_status (אישור דיווח מיחזור)
         # Create a GET request to approve_status
         request = self.factory.get(reverse('approve_status', kwargs={'pk': self.recycling.pk, 'userID': self.user.id}))
         request.user = self.user
@@ -411,7 +410,7 @@ class RecyclingTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         # Add more assertions as needed
 
-    def test_disapprove_status(self):
+    def test_disapprove_status(self): ## Unit test of view function: disapprove_status (דחיית דיווח מיחזור)
         # Create a GET request to disapprove_status
         request = self.factory.get(reverse('disapprove_status', kwargs={'pk': self.recycling.pk}))
         request.user = self.user
@@ -421,82 +420,136 @@ class RecyclingTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         # Add more assertions as needed
 
+    def test_user_recycling_form_post_valid(self): ## Unit test of view function: user_Recycling_form (דיווח מיחזור)
+        request = self.factory.post('/user-recycling/', {'data': 'sample'})
+        request.user = self.user
+        form = UserRecyclingForm(request.POST, request.FILES)
+        
+        response = userRecyclingform(request)
+
+        self.assertIsInstance(response, HttpResponseRedirect)
+        self.assertEqual(response.url, '/website/userrecycling/')
+
+    def test_user_recycling_form_post_invalid(self): ## Unit test of view function: user_Recycling_form (דיווח מיחזור)
+        request = self.factory.post('/user-recycling/', {})
+        request.user = self.user
+        
+        response = userRecyclingform(request)
+
+        self.assertEqual(response.status_code, 302)  # Form is not valid, should return the form page
+
+    def test_user_recycling_form_get(self): ## Unit test of view function: user_Recycling_form (דיווח מיחזור)
+        request = self.factory.get('/user-recycling/')
+        request.user = self.user
+        
+        response = userRecyclingform(request)
+
+        self.assertEqual(response.status_code, 200)  # GET request should return the form page
+
+    def test_user_recycling_form_superuser(self): ## Unit test of view function: user_Recycling_form (דיווח מיחזור)
+        request = self.factory.post('/user-recycling/', {'data': 'sample'})
+        request.user = self.admin_user
+        
+        response = userRecyclingform(request)
+
+        self.assertIsInstance(response, HttpResponseRedirect)
+        self.assertEqual(response.url, '/website/userrecycling/')
+
+    def test_display_photos_authenticated_user(self): ## Unit test of view function: display_photos (אישור תמונות מיחזור)
+        request = self.factory.get('/display-photos/')
+        request.user = self.user
+
+        response = display_photos(request)
+
+        self.assertEqual(response.status_code, 200)  # Authenticated user should get a 200 response
+
+    def test_display_photos_superuser(self): ## Unit test of view function: display_photos (אישור תמונות מיחזור)
+        request = self.factory.get('/display-photos/')
+        request.user = self.admin_user
+
+        response = display_photos(request)
+
+        self.assertEqual(response.status_code, 200)  # Superuser should also get a 200 response
+
 class ViewsTestCase1(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user(username='testuser', password='testpassword')
         self.client.force_login(self.user)
 
-    def test_quiz(self):
+    def test_quiz(self): ## Unit test of view function: quiz (חידון)
         response = self.client.get(reverse('quiz'))
         self.assertEqual(response.status_code, 200)
         # Add more assertions as needed
 
-    def test_view(self):
+    def test_view(self): ## Unit test of view function: view (מפות)
         response = self.client.get(reverse('maps'))
         self.assertEqual(response.status_code, 200)
         # Add more assertions as needed
 
-    def test_about(self):
+    def test_about(self): ## Unit test of view function: about (אודות)
         response = self.client.get(reverse('about'))
         self.assertEqual(response.status_code, 200)
         # Add more assertions as needed
 
-    def test_maps(self):
+    def test_maps(self): ## Unit test of view function: maps (מפות)
         response = self.client.get(reverse('maps'))
         self.assertEqual(response.status_code, 200)
         # Add more assertions as needed
 
-    def test_recycle_bins(self):
+    def test_recycle_bins(self): ## Unit test of view function: recycle_bins (פחי מיחזור)
         response = self.client.get(reverse('recycle_bins'))
         self.assertEqual(response.status_code, 200)
         # Add more assertions as needed
 
 class StoreTestCase(TestCase):
     def setUp(self):
+        self.factory = RequestFactory()
         self.client = Client()
         self.user = User.objects.create_user(username='testuser2', password='testpass', email='test2@example.com')
         self.admin = User.objects.create_user(username='adminuser2', password='adminpass', email='admin2@example.com', is_superuser=True)
         self.product = products.objects.create(product_name='Test Product', value=10, Product_type=True)
 
-    def test_addstoreproduct_GET(self):
+    def test_addstoreproduct_GET(self): ## Unit test of view function: addstoreproduct (הוספת מוצר לחנות)
         self.client.login(username='adminuser2', password='adminpass')
         response = self.client.get(reverse('addstoreproduct'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'הוספת מוצר חנות')
 
-    def test_addstoreproduct_POST(self):
+    def test_addstoreproduct_POST(self): ## Unit test of view function: addstoreproduct (הוספת מוצר לחנות)
         self.client.login(username='adminuser2', password='adminpass')
         response = self.client.post(reverse('addstoreproduct'), {'name': 'New Product', 'value': 20, 'Product_type': True})
         self.assertEqual(response.status_code, 200)  # Redirected to adminstore on successful form submission
 
-    def test_updatestoreproduct_GET(self):
+    def test_updatestoreproduct_GET(self): ## Unit test of view function: updatestoreproduct (עדכון מוצר בחנות)
         self.client.login(username='adminuser2', password='adminpass')
         response = self.client.get(reverse('updatestoreproduct', args=[self.product.pk]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'עדכון פרטי מוצר')
 
-    def test_updatestoreproduct_POST(self):
+    def test_updatestoreproduct_POST(self): ## Unit test of view function: updatestoreproduct (עדכון מוצר בחנות)
         self.client.login(username='adminuser2', password='adminpass')
         response = self.client.post(reverse('updatestoreproduct', args=[self.product.pk]), {'name': 'Updated Product', 'value': 30, 'Product_type': True})
         self.assertEqual(response.status_code, 200)  # Redirected to adminstore on successful form submission
 
-    def test_store(self):
+    def test_store(self): ## Unit test of view function: store (חנות)
         self.client.login(username='testuser2', password='testpass')
         response = self.client.get(reverse('store'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Test Product')
 
-    def test_updatepointsquiz(self):
+    def test_updatepointsquiz(self): ## Unit test of view function: updatepointsquiz (עדכון נקודות)
         self.client.login(username='testuser2', password='testpass')
         response = self.client.get(reverse('updatepointsquiz', kwargs={'pVal': 50}))
         self.assertEqual(response.status_code, 302)  # Redirected to /website/home/ after updating points
 
-    def test_adminstore(self):
+    def test_adminstore(self): ## Unit test of view function: adminstore (חנות אדמין - שינויים ועדכונים לחנות)
         self.client.login(username='adminuser2', password='adminpass')
         response = self.client.get(reverse('adminstore'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Test Product')
+    
+    
 
 if __name__ == '__main__':
     unittest.main()

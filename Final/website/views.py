@@ -1,13 +1,13 @@
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.views.generic import CreateView
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-from .models import User, products, usersContacts, usersrecycling,quizForm,mapsForm, ShopForm
+from .models import User, products, usersContacts, usersrecycling
 from django import forms
 from .forms import PrivateSignUpForm, CorpSignUpForm, ProductForm, UserDetailsForm, UserDetailsEditForm, UserRecyclingForm, storeProductForm
 from django.contrib.admin.views.decorators import staff_member_required
@@ -81,11 +81,14 @@ def contact_view(request):
 
 
 def display_contacts(request):
-    loginuser = request.user
-    checkadmin = loginuser.is_superuser
-    usertype = loginuser.user_type
-    if checkadmin:
-        usertype = "a"
+    if request.user.is_authenticated:
+        loginuser = request.user
+        checkadmin = loginuser.is_superuser
+        usertype = loginuser.user_type
+        if checkadmin:
+            usertype = "a"
+    else:
+        usertype = "Anonymous"
     contacts = usersContacts.objects.order_by('status', 'creationDT')
     return render(request, 'display_contacts.html', {'contacts': contacts, 'userType': usertype})
 
@@ -138,11 +141,12 @@ def login_request(request):
             messages.error(request, "Invalid username or password")
     return render(request, 'login.html', context={'form': AuthenticationForm()})
 
-def logout_view(request):
+def logout_view(request): ##
     logout(request)
     return redirect('/')
-
-def addproduct(request):
+@login_required
+@staff_member_required
+def addproduct(request): ##
     loginuser = request.user
     checkadmin = loginuser.is_superuser
     usertype = loginuser.user_type
@@ -159,7 +163,8 @@ def addproduct(request):
     else:
         form = ProductForm()
     return render(request, 'product_form.html', {'form': form, 'pagetitle': pagetitle, 'userType': usertype})
-
+@login_required
+@staff_member_required
 def updateproduct(request, pk):
     loginuser = request.user
     checkadmin = loginuser.is_superuser
@@ -180,11 +185,14 @@ def updateproduct(request, pk):
 
     
 def searchProduct(request):
-    loginuser = request.user
-    checkadmin = loginuser.is_superuser
-    usertype = loginuser.user_type
-    if checkadmin:
-        usertype = "a"
+    if request.user.is_authenticated:
+        loginuser = request.user
+        checkadmin = loginuser.is_superuser
+        usertype = loginuser.user_type
+        if checkadmin:
+            usertype = "a"
+    else:
+        usertype = "Anonymous"
     myproducts = products.objects.all().values()
     template = loader.get_template('searchProduct.html')
     if request.method == 'POST':
@@ -204,11 +212,14 @@ def searchProduct(request):
     return HttpResponse(template.render(context, request))
 
 def productslist(request):
-    loginuser = request.user
-    checkadmin = loginuser.is_superuser
-    usertype = loginuser.user_type
-    if checkadmin:
-        usertype = "a"
+    if request.user.is_authenticated:
+        loginuser = request.user
+        checkadmin = loginuser.is_superuser
+        usertype = loginuser.user_type
+        if checkadmin:
+            usertype = "a"
+    else:
+        usertype = "Anonymous"
     recycling_products = products.objects.filter(Product_type=False)
     return render(request, 'products_list.html', {'products': recycling_products, 'userType': usertype})
 
@@ -329,7 +340,7 @@ def data_user(request):
     return render(request, 'data_user.html', context)
 
 @login_required
-def userRecyclingform(request):
+def userRecyclingform(request): 
     loginuser = request.user
     checkadmin = loginuser.is_superuser
     usertype = loginuser.user_type
@@ -350,7 +361,7 @@ def userRecyclingform(request):
     return render(request, 'user_recycling.html', {'form': form, 'userType': usertype})
 
 @login_required
-def display_photos(request):
+def display_photos(request): 
     loginuser = request.user
     checkadmin = loginuser.is_superuser
     usertype = loginuser.user_type
@@ -390,36 +401,48 @@ def quiz(request):
     return render(request, 'quiz.html', {'userType': usertype})
 
 def view(request):
-    loginuser = request.user
-    checkadmin = loginuser.is_superuser
-    usertype = loginuser.user_type
-    if checkadmin:
-        usertype = "a"
+    if request.user.is_authenticated:
+        loginuser = request.user
+        checkadmin = loginuser.is_superuser
+        usertype = loginuser.user_type
+        if checkadmin:
+            usertype = "a"
+    else:
+        usertype = "Anonymous"
     return render(request, 'maps.html', {'userType': usertype})
  
 def about(request):
-    loginuser = request.user
-    checkadmin = loginuser.is_superuser
-    usertype = loginuser.user_type
-    if checkadmin:
-        usertype = "a"
+    if request.user.is_authenticated:
+        loginuser = request.user
+        checkadmin = loginuser.is_superuser
+        usertype = loginuser.user_type
+        if checkadmin:
+            usertype = "a"
+    else:
+        usertype = "Anonymous"
     return render(request, 'about.html', {'userType': usertype})
     
 def maps(request):
-    loginuser = request.user
-    checkadmin = loginuser.is_superuser
-    usertype = loginuser.user_type
-    if checkadmin:
-        usertype = "a"
+    if request.user.is_authenticated:
+        loginuser = request.user
+        checkadmin = loginuser.is_superuser
+        usertype = loginuser.user_type
+        if checkadmin:
+            usertype = "a"
+    else:
+        usertype = "Anonymous"
     return render(request, 'maps.html', {'userType': usertype})
  
     
 def recycle_bins(request):
-    loginuser = request.user
-    checkadmin = loginuser.is_superuser
-    usertype = loginuser.user_type
-    if checkadmin:
-        usertype = "a"
+    if request.user.is_authenticated:
+        loginuser = request.user
+        checkadmin = loginuser.is_superuser
+        usertype = loginuser.user_type
+        if checkadmin:
+            usertype = "a"
+    else:
+        usertype = "Anonymous"
     return render(request, 'recycle.html', {'userType': usertype})
  
 
@@ -478,7 +501,7 @@ def store(request):
     return render(request, 'store.html', {'products': store_products, 'userType': usertype, 'userObj': loginuser})
 
 @login_required
-def updatepoints(request, pk):
+def updatepoints(request, pk): ##
     productObj = products.objects.get(pk=pk)
     loginuser = request.user
     pValue = productObj.value

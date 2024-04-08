@@ -34,10 +34,10 @@
         <a href="{% url 'adminstore' %}">עדכון חנות אינטרנטית</a>
         <a href="{% url 'productslist' %}">מאגר מוצרים</a>
         <a href="{% url 'data_user' %}">מאגר משתמשים</a>
+        <a href="{% url 'data_recycling' %}">נתוני מיחזור</a>
         <a href="{% url 'display_photos' %}"> דיווחי משתמשים</a>
         <a href="{% url 'display_contacts' %}">פניות משתמשים</a>
         <a href="{% url 'maps' %}">מיקום פחי מיחזור </a>
-        <a href="{% url 'about' %}">אודות</a>
         <a href="{% url 'logout' %}">להתנתקות ויציאה</a>
       {% else %}
         <a href="{% url 'home' %}">דף הבית</a>
@@ -48,9 +48,9 @@
           <a href="{% url 'quiz' %}">חידון</a>
           <a href="{% url 'store' %}">חנות</a>
 
-
         {% else %}
-          <a href="{% url 'data_recycling' %}">נתוני מחזור</a>
+        <a href="{% url 'my_authority' %}">הרשות שלי</a>
+
         {% endif %}
         <a href="{% url 'recycle_bins' %}">מידע על פחי מיחזור</a>
         <a href="{% url 'searchProduct' %}">מידע מוצרים</a>
