@@ -15,7 +15,7 @@ https://drive.google.com/file/d/1qnqLkMnmzSp68iNSBvNnBLmM-RnYPlbj/view?usp=shari
 ### Installing
 As requested by the lecturer the website is local, steps to install:
 
-- Create and environment
+- Create an environment
 - Clone the git
 - Install requirements.txt
 - Run server
